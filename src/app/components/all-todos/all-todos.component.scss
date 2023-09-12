@@ -1,0 +1,22 @@
+section {
+    max-width: 500px;
+    margin: 200px auto;
+}
+
+button {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 10px;
+    cursor: pointer;
+
+    &:hover {
+        transition: all 0.5s ease-in-out;
+        background-color: #ccc;
+        color: black;
+    }
+}

@@ -1,7 +1,12 @@
-<form (ngSubmit)="login()">
+<form (ngSubmit)="loginWithUsernameAndPassword()">
 
-    <input type="email" name="email" [(ngModel)]="email" required placeholder="Em@il">
+    <input type="username" name="text" [(ngModel)]="username" required placeholder="Us3rn@m3">
     <input type="password" name="password" [(ngModel)]="password" required placeholder="P@ss_w0rd">
     <button>LOGIN</button>
 
+    <div class="error" [class.opacity]="visible" #errormessage>
+        <p>{{ error }}</p>
+    </div>
+
 </form>
+
