@@ -1,1 +1,7 @@
-<p>login works!</p>
+<form (ngSubmit)="login()">
+
+    <input type="email" name="email" [(ngModel)]="email" required placeholder="Em@il">
+    <input type="password" name="password" [(ngModel)]="password" required placeholder="P@ss_w0rd">
+    <button>LOGIN</button>
+
+</form>
