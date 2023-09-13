@@ -17,14 +17,17 @@ export class AllTodosComponent {
 
 
   async ngOnInit(): Promise<void> {
-    this.todos = await this.getTodos();
+    this.todos = await this.getTodos().then((data) => {
+      return data.sort((a: any, b: any) => {
+        return a.id - b.id;
+      });
+    });
   }
 
 
   getTodos() {
     const url = environment.baseUrl + '/todos/';
-    const token = localStorage.getItem('token');
-    return lastValueFrom(this.http.get<any>(url, { headers: { Authorization: `Token ${token}` } }));
+    return lastValueFrom(this.http.get<any>(url));
   }
 
 
