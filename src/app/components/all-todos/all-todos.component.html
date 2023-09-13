@@ -1,9 +1,18 @@
-
 <section>
-    <p>all-todos works!</p>
+    <h1>Welcome Backstage</h1>
 
-    <p>Welcome Backstage</p>
-    
-    
+    <h2>My Todos</h2>
+    <div *ngFor="let todo of todos" class="todo">
+        <p>
+            Title: <b>{{ todo.title }}</b>
+        </p>
+        <p>
+            Description: <b>{{ todo.description }}</b>
+        </p>
+        <p *ngIf="todo.completed">Status: <b>todo</b></p>
+        <p *ngIf="!todo.completed">Status: <b>done</b></p>
+    </div>
+
+
     <button (click)="logout()">LOGOUT</button>
 </section>

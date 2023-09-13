@@ -25,7 +25,7 @@ export class LoginComponent {
       if (resp.token === undefined) {
         this.handleError();
       } else {
-        this.router.navigate(['/alltodos']);
+        this.router.navigate(['/todos']);
       }
     }
     catch (error) {
