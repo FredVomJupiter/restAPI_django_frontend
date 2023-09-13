@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,25 +15,17 @@ export class LoginComponent {
   error: string = '';
   visible: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
 
-  async loginWithUsernameAndPassword() {
-    const requestOptions = this.getSettings();
-
+  async login() {
     try {
-      let resp = await fetch("http://127.0.0.1:8000/login/", requestOptions);
-      let data = await resp.json();
-      localStorage.setItem('token', data.token);
-      if (data.token === undefined) {
-        this.error = 'Wrong username or password';
-        this.visible = true;
-        setTimeout(() => {
-          this.visible = false;
-        }, 3000);
-        throw new Error('No token received');
+      let resp = await this.authService.loginWithUsernameAndPassword(this.username, this.password);
+      localStorage.setItem('token', resp.token);
+      if (resp.token === undefined) {
+        this.handleError();
       } else {
-      this.router.navigate(['/alltodos']);
+        this.router.navigate(['/alltodos']);
       }
     }
     catch (error) {
@@ -41,22 +34,10 @@ export class LoginComponent {
   }
 
 
-  getSettings() {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-      "username": this.username,
-      "password": this.password
-    });
-
-    const requestOptions: RequestInit = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    return requestOptions;
+  handleError() {
+    this.error = 'Wrong username or password';
+    this.visible = true;
+    setTimeout(() => {this.visible = false;}, 3000);
+    throw new Error('No token received');
   }
 }
