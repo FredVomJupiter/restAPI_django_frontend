@@ -1,0 +1,17 @@
+<div (click)="closeForm()" class="background" [class.visible]="this.oS.addOverlayVisible">
+
+    <section (click)="noBubble($event)">
+        <button (click)="closeForm()" class="close-btn">CLOSE</button>
+        <form [formGroup]="todoForm" (ngSubmit)="create()">
+            <label for="title">Title</label>
+            <input type="text" formControlName="title" name="title" [(ngModel)]="title" placeholder="Title" (keyup)="checkForm()">
+            <label for="description">Description</label>
+            <input type="text" formControlName="description" name="description" [(ngModel)]="description" placeholder="Description" (keyup)="checkForm()">
+            <label for="status">Status</label>
+            <input type="checkbox" formControlName="completed" name="status" [(ngModel)]="status">
+            <button type="submit" [disabled]="youShallNotPass" [class.disabled]="youShallNotPass">CREATE</button>
+        </form>
+    </section>
+    
+</div>
+

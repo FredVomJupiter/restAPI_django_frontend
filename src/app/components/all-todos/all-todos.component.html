@@ -2,7 +2,9 @@
     <h1>Welcome Backstage</h1>
 
     <h2>My Todos</h2>
-    <div *ngFor="let todo of todos" class="todo">
+    <button (click)="openForm()">ADD</button>
+
+    <div *ngFor="let todo of todos" class="todo" (click)="viewTodo(todo)">
         <p>
             Title: <b>{{ todo.title }}</b>
         </p>
@@ -11,8 +13,13 @@
         </p>
         <p *ngIf="todo.completed">Status: <b>done</b></p>
         <p *ngIf="!todo.completed">Status: <b>todo</b></p>
+        <button (click)="delete(todo.id, $event)" class="delete-btn">DELETE</button>
     </div>
 
+    
+    <app-add-todo></app-add-todo>
 
-    <button (click)="logout()">LOGOUT</button>
+    <app-todo-details></app-todo-details>
+
+    <button (click)="logout()" class="logout-btn">LOGOUT</button>
 </section>

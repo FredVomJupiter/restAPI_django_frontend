@@ -15,9 +15,19 @@ button {
     cursor: pointer;
 
     &:hover {
-        transition: all 0.5s ease-in-out;
+        transition: all 0.125s ease-in-out;
         background-color: #ccc;
         color: black;
+    }
+}
+
+.delete-btn {
+    background-color: orange;
+    color: black;
+
+    &:hover {
+        background-color: orange;
+        border: 1px solid black;
     }
 }
 
@@ -34,8 +44,12 @@ button {
     cursor: pointer;
 
     &:hover {
-        transition: all 0.5s ease-in-out;
+        transition: all 0.125s ease-in-out;
         background-color: #ccc;
         color: black;
     }
+}
+
+.logout-btn {
+    background-color: blueviolet;
 }

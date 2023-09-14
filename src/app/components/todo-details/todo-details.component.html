@@ -1,0 +1,18 @@
+<div class="detail-overlay" [class.visible]="this.oS.overlayVisible" (click)="close()">
+
+    <section (click)="noBubble($event)" *ngIf="oS.currentTodo != null">
+        <button class="close-btn" (click)="close()">CLOSE</button>
+    
+        <form [formGroup]="todoForm" (ngSubmit)="updateTodo()">
+            <label for="title">Title</label>
+            <input type="text" name="title" formControlName="title" [placeholder]="oS.currentTodo.title" required #title (keyup)="checkForm()">
+            <label for="description">Description</label>
+            <input type="text" name="description" formControlName="description" [placeholder]="oS.currentTodo.description" required #descr (keyup)="checkForm()">
+            <label for="completed">Status</label>
+            <input type="checkbox" name="completed" [checked]="oS.currentTodo.completed" formControlName="completed" required #status (keyup)="checkForm()">
+            <button type="submit" [disabled]="youShallNotPass" [class.disabled]="youShallNotPass">UPDATE</button>
+        </form>
+    
+    </section>
+
+</div>
