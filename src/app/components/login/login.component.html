@@ -4,11 +4,13 @@
     <input type="password" name="password" [(ngModel)]="password" required placeholder="P@ss_w0rd">
     <button>LOGIN</button>
 
+    <div class="guest-btn" (click)="guestLogin()">GUEST LOGIN</div>
+
     <div class="error" [class.opacity]="visible" #errormessage>
         <p>{{ error }}</p>
     </div>
 
 </form>
 
-<button (click)="guestLogin()">GUEST LOGIN</button>
+
 

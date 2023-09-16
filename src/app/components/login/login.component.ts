@@ -11,8 +11,8 @@ export class LoginComponent {
 
   @ViewChild('errormessage') errormessage!: HTMLElement;
   username: string = '';
-  password: string = 'Error';
-  error: string = '';
+  password: string = '';
+  error: string = 'Error';
   visible: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) { }
