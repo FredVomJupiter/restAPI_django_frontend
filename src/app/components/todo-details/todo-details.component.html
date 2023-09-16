@@ -10,6 +10,24 @@
             <input type="text" name="description" formControlName="description" [placeholder]="oS.currentTodo.description" required #descr (keyup)="checkForm()">
             <label for="completed">Status</label>
             <input type="checkbox" name="completed" [checked]="oS.currentTodo.completed" formControlName="completed" required #status (keyup)="checkForm()">
+            <label for="priority">Priority</label>
+            <select name="priority" formControlName="priority" required #priority (keyup)="checkForm()">
+                <option value="low" [selected]="oS.currentTodo.priority == 'low'">Low</option>
+                <option value="medium" [selected]="oS.currentTodo.priority == 'medium'">Medium</option>
+                <option value="high" [selected]="oS.currentTodo.priority == 'high'">High</option>
+            </select>
+            <label for="category">Category</label>
+            <select name="category" formControlName="category" required #category (keyup)="checkForm()">
+                <option value="work" [selected]="oS.currentTodo.category == 'work'">Work</option>
+            </select>
+            <label for="dueDate">Due Date</label>
+            <input type="date" name="dueDate" formControlName="dueDate" [placeholder]="oS.currentTodo.due_date" required #dueDate (keyup)="checkForm()">
+            <label for="assigned">Assigned to</label>
+            <select name="assigned" formControlName="assigned" required #assigned (keyup)="checkForm()">
+                <option value="me" [selected]="oS.currentTodo.assigned_to[0] == 'me'">Me</option>
+            </select>
+            <label for="subtask">Subtasks</label>
+            <input type="text" name="subtask" formControlName="subtask" [placeholder]="oS.currentTodo.subtasks" required #subtask (keyup)="checkForm()">
             <button type="submit" [disabled]="youShallNotPass" [class.disabled]="youShallNotPass">UPDATE</button>
         </form>
     
