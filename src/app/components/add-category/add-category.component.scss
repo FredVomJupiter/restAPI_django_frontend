@@ -1,0 +1,71 @@
+.submenu {
+    display: flex;
+    gap: 1rem;
+
+    .add-btn {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        background-color: yellowgreen;
+        font-weight: bold;
+        letter-spacing: 10px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: green;
+            color: white;
+        }
+    }
+
+    .close-btn {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        letter-spacing: 10px;
+        width: fit-content;
+        cursor: pointer;
+        background-color: orange;
+
+        &:hover {
+            background-color: orangered;
+            color: white;
+        }
+    }
+}
+
+input {
+    padding: 0.5rem;
+    border-top: unset;
+    border-left: unset;
+    border-right: unset;
+    border-bottom: 2px solid cornflowerblue;
+    background-color: #ccc;
+    height: 2rem;
+
+    &:focus {
+        outline: none;
+        border-bottom: 2px solid yellowgreen;
+        font-size: 1.2rem;
+        background-color: whitesmoke;
+    }
+}
+
+select {
+    padding: 0.5rem;
+    border-top: unset;
+    border-left: unset;
+    border-right: unset;
+    border-bottom: 2px solid cornflowerblue;
+    background-color: #ccc;
+    height: 50px;
+
+    &:focus {
+        outline: none;
+        border-bottom: 2px solid yellowgreen;
+        font-size: 1.2rem;
+        background-color: whitesmoke;
+    }
+}

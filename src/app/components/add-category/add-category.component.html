@@ -1,0 +1,15 @@
+<form class="submenu" [formGroup]="categoryForm">
+    <input type="text" formControlName="newCategory" name="newCategory" [(ngModel)]="newCategory" placeholder="New Category">
+    <select formControlName="newColor" name="color" [(ngModel)]="newColor">
+        <option value="blue">blue</option>
+        <option value="red">red</option>
+        <option value="green">green</option>
+        <option value="yellow">yellow</option>
+        <option value="purple">purple</option>
+        <option value="orange">orange</option>
+        <option value="pink">pink</option>
+        <option value="brown">brown</option>
+        <option value="grey">grey</option>
+    </select>
+    <div class="add-btn" (click)="createCategory()">Add</div><div class="close-btn" (click)="closeCategoryForm()">Back</div>
+</form>
