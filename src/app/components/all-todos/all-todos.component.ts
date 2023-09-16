@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, lastValueFrom } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
-import { environment } from 'src/environments/environment';
 
 
 interface Todo {
@@ -26,24 +25,21 @@ interface Todo {
 })
 export class AllTodosComponent implements OnInit, OnDestroy {
 
-  todos: Todo[] = [];
   creating: boolean = false;
 
   sub!: Subscription;
 
   constructor(
     private router: Router,
-    private http: HttpClient,
     public oS: OverlayService,
+    public dataService: DataService
     ) { }
 
 
   async ngOnInit(): Promise<void> {
-    this.loadTodos();
-    this.sub = this.oS.subject.subscribe((data) => {
+    this.sub = this.oS.subject.subscribe(async (data) => {
       if (data) {
-        this.loadTodos();
-        this.oS.setObservableFalse();
+        this.oS.setSubjectFalse();
       }
     });
   }
@@ -54,26 +50,9 @@ export class AllTodosComponent implements OnInit, OnDestroy {
   }
 
 
-  async loadTodos() {
-    this.todos = await this.getTodos().then((data) => {
-      return data.sort((a: any, b: any) => {
-        return a.id - b.id;
-      });
-    });
-  }
-
-
-  async getTodos() {
-    const url = environment.baseUrl + '/api/v1/todos/';
-    return await lastValueFrom(this.http.get<any>(url));
-  }
-
-
   async delete(id: number, $event: any) {
     $event.stopPropagation();
-    const url = environment.baseUrl + '/api/v1/todos/' + id;
-    await lastValueFrom(this.http.delete<any>(url));
-    this.loadTodos();
+    await this.dataService.deleteTodoById(id);
   }
 
 

@@ -4,7 +4,7 @@
     <h2>My Todos</h2>
     <button (click)="openForm()">ADD</button>
 
-    <div *ngFor="let todo of todos" class="todo" (click)="viewTodo(todo)">
+    <div *ngFor="let todo of this.dataService.todos | async" class="todo" (click)="viewTodo(todo)">
         <p>{{ todo.category }}</p>
         <p>
             Title: <b>{{ todo.title }}</b>
