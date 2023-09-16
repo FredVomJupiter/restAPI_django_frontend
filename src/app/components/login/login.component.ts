@@ -14,6 +14,8 @@ export class LoginComponent {
   password: string = '';
   error: string = 'Error';
   visible: boolean = false;
+  loading: boolean = false;
+  active: boolean = true;
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -43,6 +45,7 @@ export class LoginComponent {
 
 
   async guestLogin() {
+    this.handleActivationAndAnimation();
     try {
       let resp = await this.authService.loginWithUsernameAndPassword('Guest', `8j)'Ga_Kw?YwPbt`);
       localStorage.setItem('token', resp.token);
@@ -55,5 +58,13 @@ export class LoginComponent {
     catch (error) {
       console.error(error);
     }
+  }
+
+  
+  handleActivationAndAnimation() {
+    if (this.active === false) {
+      return;
+    }
+    this.loading = true;
   }
 }

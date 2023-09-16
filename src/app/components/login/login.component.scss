@@ -72,3 +72,49 @@ button {
         color: black;
     }
 }
+
+.login {
+    opacity: 0;
+    color: black;
+    font-weight: bold;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    animation: loading 1s ease-in-out infinite;
+}
+
+@keyframes loading {
+    0% {
+        background: linear-gradient(to right, #96c93d 0%, #ccc 10%);
+    }
+    10% {
+        background: linear-gradient(to right, #96c93d 10%, #ccc 20%);
+    }
+    20% {
+        background: linear-gradient(to right, #96c93d 20%, #ccc 30%);
+    }
+    30% {
+        background: linear-gradient(to right, #96c93d 30%, #ccc 40%);
+    }
+    40% {
+        background: linear-gradient(to right, #96c93d 40%, #ccc 50%);
+    }
+    50% {
+        background: linear-gradient(to right, #96c93d 50%, #ccc 60%);
+    }
+    60% {
+        background: linear-gradient(to right, #96c93d 60%, #ccc 70%);
+    }
+    70% {
+        background: linear-gradient(to right, #96c93d 70%, #ccc 80%);
+    }
+    80% {
+        background: linear-gradient(to right, #96c93d 80%, #ccc 90%);
+    }
+    90% {
+        background: linear-gradient(to right, #96c93d 90%, #ccc 100%);
+    }
+    100% {
+        background: linear-gradient(to right, #96c93d 100%, #ccc 100%);
+    }
+}

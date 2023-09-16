@@ -6,6 +6,10 @@
 
     <div class="guest-btn" (click)="guestLogin()">GUEST LOGIN</div>
 
+    <div class="login" [class.opacity]="loading">
+        <p>Checking your credentials...</p>
+    </div>
+
     <div class="error" [class.opacity]="visible" #errormessage>
         <p>{{ error }}</p>
     </div>
