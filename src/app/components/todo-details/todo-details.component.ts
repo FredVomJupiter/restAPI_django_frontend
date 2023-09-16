@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OverlayService } from 'src/app/services/overlay.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { lastValueFrom } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 
 
 interface Todo {
@@ -40,7 +38,7 @@ export class TodoDetailsComponent {
   constructor(
     private router: Router,
     public oS: OverlayService,
-    private http: HttpClient
+    private dataService: DataService
   ) { }
 
 
@@ -62,9 +60,8 @@ export class TodoDetailsComponent {
 
   async updateTodo() {
     let todo = this.addChangeS();
-    const url = environment.baseUrl + '/api/v1/todos/' + this.oS.currentTodo?.id + '/';
-    await lastValueFrom(this.http.put<any>(url, todo));
-    this.oS.setObservableTrue();
+    this.dataService.updateTodoById(todo as Todo);
+    this.oS.setSubjectTrue();
     this.close();
   }
 
