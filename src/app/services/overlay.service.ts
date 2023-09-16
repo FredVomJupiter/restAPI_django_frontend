@@ -21,20 +21,33 @@ export class OverlayService {
 
   overlayVisible: boolean = false;
   addOverlayVisible: boolean = false;
+  categoryOverlayVisible: boolean = false;
   currentTodo: Todo | null = null;
 
   subject = new Subject<boolean>();
+  categorySubject = new Subject<boolean>();
 
   constructor() { }
 
 
-  setObservableTrue() {
+  setSubjectTrue() {
     this.subject.next(true);
   }
 
 
-  setObservableFalse() {
+  setSubjectFalse() {
     this.subject.next(false);
   }
+
+
+  setCategorySubjectTrue() {
+    this.categorySubject.next(true);
+  }
+
+
+  setCategorySubjectFalse() {
+    this.categorySubject.next(false);
+  }
+
 
 }
