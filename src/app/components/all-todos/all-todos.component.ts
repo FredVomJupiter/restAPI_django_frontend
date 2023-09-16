@@ -11,7 +11,12 @@ interface Todo {
   title: string;
   description: string;
   completed: boolean;
-  created_at: string;
+  created_at: Date;
+  category: string;
+  priority: string;
+  due_date: Date;
+  assigned_to: string[];
+  subtasks: string[];
 }
 
 @Component({
@@ -59,14 +64,14 @@ export class AllTodosComponent implements OnInit, OnDestroy {
 
 
   async getTodos() {
-    const url = environment.baseUrl + '/api/todos/';
+    const url = environment.baseUrl + '/api/v1/todos/';
     return await lastValueFrom(this.http.get<any>(url));
   }
 
 
   async delete(id: number, $event: any) {
     $event.stopPropagation();
-    const url = environment.baseUrl + '/api/todos/' + id;
+    const url = environment.baseUrl + '/api/v1/todos/' + id;
     await lastValueFrom(this.http.delete<any>(url));
     this.loadTodos();
   }

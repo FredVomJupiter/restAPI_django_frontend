@@ -6,7 +6,12 @@ interface Todo {
   title: string;
   description: string;
   completed: boolean;
-  created_at: string;
+  created_at: Date;
+  category: string;
+  priority: string;
+  due_date: Date;
+  assigned_to: string[];
+  subtasks: string[];
 }
 
 @Injectable({

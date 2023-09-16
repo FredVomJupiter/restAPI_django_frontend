@@ -12,7 +12,12 @@ interface Todo {
   title: string;
   description: string;
   completed: boolean;
-  created_at: string;
+  created_at: Date;
+  category: string;
+  priority: string;
+  due_date: Date;
+  assigned_to: string[];
+  subtasks: string[];
 }
 
 
@@ -57,7 +62,7 @@ export class TodoDetailsComponent {
 
   async updateTodo() {
     let todo = this.addChangeS();
-    const url = environment.baseUrl + '/api/todos/' + this.oS.currentTodo?.id + '/';
+    const url = environment.baseUrl + '/api/v1/todos/' + this.oS.currentTodo?.id + '/';
     await lastValueFrom(this.http.put<any>(url, todo));
     this.oS.setObservableTrue();
     this.close();
