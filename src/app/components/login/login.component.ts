@@ -40,4 +40,20 @@ export class LoginComponent {
     setTimeout(() => {this.visible = false;}, 3000);
     throw new Error('No token received');
   }
+
+
+  async guestLogin() {
+    try {
+      let resp = await this.authService.loginWithUsernameAndPassword('Guest', `8j)'Ga_Kw?YwPbt`);
+      localStorage.setItem('token', resp.token);
+      if (resp.token === undefined) {
+        this.handleError();
+      } else {
+        this.router.navigate(['/todos']);
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
 }
