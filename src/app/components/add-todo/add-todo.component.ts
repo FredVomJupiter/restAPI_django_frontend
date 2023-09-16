@@ -11,7 +11,12 @@ interface Todo {
   title: string;
   description: string;
   completed: boolean;
-  created_at: string;
+  created_at: Date;
+  category: string;
+  priority: string;
+  due_date: Date;
+  assigned_to: string[];
+  subtasks: string[];
 }
 
 @Component({
@@ -21,14 +26,18 @@ interface Todo {
 })
 export class AddTodoComponent {
 
+  categories!: string[];
+
   title: string = '';
   description: string = '';
   status: boolean = false;
+  category: string = '';
 
   todoForm = new FormGroup({
     title: new FormControl(this.title, Validators.required),
     description: new FormControl(this.description, Validators.required),
-    completed: new FormControl(this.status)
+    completed: new FormControl(this.status),
+    category: new FormControl(this.category, Validators.required),
   });
 
   youShallNotPass: boolean = true;
@@ -40,10 +49,30 @@ export class AddTodoComponent {
     ) { }
 
 
+  async ngOnInit(): Promise<void> {
+    this.categories = await this.getCategories().then((data) => {
+      return data;
+    });
+  }
+
+
+  async getCategories() {
+    const url = environment.baseUrl + '/api/v1/categories/';
+    return await lastValueFrom(this.http.get<any>(url));
+  }
+
+
+  createCategory() {
+    console.log('create category');
+    
+    console.log(this.category);
+  }
+
+
   async create() {
     if (this.todoForm.valid) {
       console.log(this.todoForm.value);
-      const url = environment.baseUrl + '/api/todos/';
+      const url = environment.baseUrl + '/api/v1/todos/';
       await lastValueFrom(this.http.post<any>(url, this.todoForm.value));
       this.oS.setObservableTrue();
       this.closeForm();

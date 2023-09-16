@@ -49,6 +49,23 @@ section {
         }
     }
 
+    select {
+        padding: 0.5rem;
+        border-top: unset;
+        border-left: unset;
+        border-right: unset;
+        border-bottom: 2px solid cornflowerblue;
+        background-color: #ccc;
+        height: 50px;
+
+        &:focus {
+            outline: none;
+            border-bottom: 2px solid yellowgreen;
+            font-size: 1.2rem;
+            background-color: whitesmoke;
+        }
+    }
+
     button {
         padding: 0.5rem;
         border: 1px solid #ccc;
