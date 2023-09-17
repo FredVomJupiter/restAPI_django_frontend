@@ -2,25 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
-
-interface Todo {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
-  created_at: Date;
-  category: string;
-  priority: string;
-  due_date: Date;
-  assigned_to: string[];
-  subtasks: string[];
-}
-
-interface Category {
-  name: string;
-  color: string;
-}
+import { Category } from '../models/category.model';
+import { Todo } from '../models/todo.model';
 
 
 @Injectable({
@@ -28,17 +11,26 @@ interface Category {
 })
 export class DataService {
 
-  todos: Observable<Todo[]> = new Observable<Todo[]>();
-  categories: Observable<Category[]> = new Observable<Category[]>();
+  todos$: Observable<Todo[]> = new Observable<Todo[]>();
+  categories$: Observable<Category[]> = new Observable<Category[]>();
 
   constructor(
     private http: HttpClient
-    ) { }
+    ) {
+      this.load();
+    }
 
   
-  async ngOnInit(): Promise<void> {
-    this.todos = await this.getTodos();
-    this.categories = await this.getCategories();
+  async load() {
+    console.log('loading');
+    let todos = await this.getTodos();
+    this.todos$ = new Observable<Todo[]>(subscriber => {
+      subscriber.next(todos);
+    });
+    let categories = await this.getCategories();
+    this.categories$ = new Observable<Category[]>(subscriber => {
+      subscriber.next(categories);
+    });
   }
 
 
@@ -54,31 +46,43 @@ export class DataService {
   }
 
 
-  async createCategory(name: string, color: string) {
+  async createCategory(category: Category) {
     const url = environment.baseUrl + '/api/v1/categories/';
-    const body = { name: name, color: color }
+    const body = category;
     await lastValueFrom(this.http.post<any>(url, body));
-    this.categories = await this.getCategories();
+    let categories = await this.getCategories();
+    this.categories$ = new Observable<Category[]>(subscriber => {
+      subscriber.next(categories);
+    });
   }
 
 
   async createTodo(data: Todo) {
     const url = environment.baseUrl + '/api/v1/todos/';
     await lastValueFrom(this.http.post<any>(url, data));
-    this.todos = await this.getTodos();
+    let todos = await this.getTodos();
+    this.todos$ = new Observable<Todo[]>(subscriber => {
+      subscriber.next(todos);
+    });
   }
 
 
   async updateTodoById(data: Todo) {
     const url = environment.baseUrl + '/api/v1/todos/' + data.id + '/';
     await lastValueFrom(this.http.put<any>(url, data));
-    this.todos = await this.getTodos();
+    let todos = await this.getTodos();
+    this.todos$ = new Observable<Todo[]>(subscriber => {
+      subscriber.next(todos);
+    });
   }
 
 
   async deleteTodoById(id: number) {
     const url = environment.baseUrl + '/api/v1/todos/' + id;
     await lastValueFrom(this.http.delete<any>(url));
-    this.todos = await this.getTodos();
+    let todos = await this.getTodos();
+    this.todos$ = new Observable<Todo[]>(subscriber => {
+      subscriber.next(todos);
+    });
   }
 }
