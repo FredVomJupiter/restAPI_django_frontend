@@ -4,8 +4,8 @@
     <h2>My Todos</h2>
     <button (click)="openForm()">ADD</button>
 
-    <div *ngFor="let todo of this.dataService.todos | async" class="todo" (click)="viewTodo(todo)">
-        <p>{{ todo.category }}</p>
+    <div *ngFor="let todo of this.dataService.todos$ | async" class="todo" (click)="viewTodo(todo)">
+        <span class="category" [style.background]="todo.category.color"><b>{{ todo.category.name }}</b></span>
         <p>
             Title: <b>{{ todo.title }}</b>
         </p>
@@ -14,7 +14,10 @@
         </p>
         <p *ngIf="todo.completed">Status: <b>done</b></p>
         <p *ngIf="!todo.completed">Status: <b>todo</b></p>
-        <p>Priority: {{ todo.priority }}</p>
+        <p>Priority: <b>{{ todo.priority.name }}</b></p>
+        <p>Due date: <b>{{ todo.due_date | date }}</b></p>
+        <p>Assigned to: </p>
+        <div *ngFor="let assign of todo.assigned_to">{{ assign.username }}</div>
         <button (click)="delete(todo.id, $event)" class="delete-btn">DELETE</button>
     </div>
 

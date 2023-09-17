@@ -4,31 +4,41 @@
         <button class="close-btn" (click)="close()">CLOSE</button>
     
         <form [formGroup]="todoForm" (ngSubmit)="updateTodo()">
-            <label for="title">Title</label>
-            <input type="text" name="title" formControlName="title" [placeholder]="oS.currentTodo.title" required #title (keyup)="checkForm()">
-            <label for="description">Description</label>
-            <input type="text" name="description" formControlName="description" [placeholder]="oS.currentTodo.description" required #descr (keyup)="checkForm()">
-            <label for="completed">Status</label>
-            <input type="checkbox" name="completed" [checked]="oS.currentTodo.completed" formControlName="completed" required #status (keyup)="checkForm()">
-            <label for="priority">Priority</label>
-            <select name="priority" formControlName="priority" required #priority (keyup)="checkForm()">
-                <option value="low" [selected]="oS.currentTodo.priority == 'low'">Low</option>
-                <option value="medium" [selected]="oS.currentTodo.priority == 'medium'">Medium</option>
-                <option value="high" [selected]="oS.currentTodo.priority == 'high'">High</option>
-            </select>
+
             <label for="category">Category</label>
             <select name="category" formControlName="category" required #category (keyup)="checkForm()">
-                <option value="work" [selected]="oS.currentTodo.category == 'work'">Work</option>
+                <option [value]="oS.currentTodo.category.name" [selected]="oS.currentTodo.category.name">{{ oS.currentTodo.category.name }} ({{ oS.currentTodo.category.color }})</option>
+                <option *ngFor="let cat of this.dataService.categories$ | async" [value]="cat.name +','+ cat.color">{{ cat.name }} ({{ cat.color }})</option>
             </select>
+
+            <label for="title">Title</label>
+            <input type="text" name="title" formControlName="title" [placeholder]="oS.currentTodo.title" required #title (keyup)="checkForm()">
+
+            <label for="description">Description</label>
+            <input type="text" name="description" formControlName="description" [placeholder]="oS.currentTodo.description" required #descr (keyup)="checkForm()">
+
+            <label for="completed">Status</label>
+            <input type="checkbox" name="completed" [checked]="oS.currentTodo.completed" formControlName="completed" required #status (keyup)="checkForm()">
+
+            <label for="priority">Priority</label>
+            <select name="priority" formControlName="priority" required #priority (keyup)="checkForm()">
+                <option value="low" [selected]="oS.currentTodo.priority.name == 'Low'">Low</option>
+                <option value="medium" [selected]="oS.currentTodo.priority.name == 'Medium'">Medium</option>
+                <option value="high" [selected]="oS.currentTodo.priority.name == 'High'">High</option>
+            </select>
+    
             <label for="dueDate">Due Date</label>
-            <input type="date" name="dueDate" formControlName="dueDate" [placeholder]="oS.currentTodo.due_date" required #dueDate (keyup)="checkForm()">
+            <input type="date" name="dueDate" formControlName="dueDate" value="{{ getDateString() }}" required #dueDate (keyup)="checkForm()">
+
             <label for="assigned">Assigned to</label>
-            <select name="assigned" formControlName="assigned" required #assigned (keyup)="checkForm()">
-                <option value="me" [selected]="oS.currentTodo.assigned_to[0] == 'me'">Me</option>
+            <select name="assigned" formControlName="assignedTo" required #assigned (keyup)="checkForm()">
+                <option value="me" [selected]="oS.currentTodo.assigned_to[0].username == 'me'">Me</option>
             </select>
+
             <label for="subtask">Subtasks</label>
-            <input type="text" name="subtask" formControlName="subtask" [placeholder]="oS.currentTodo.subtasks" required #subtask (keyup)="checkForm()">
-            <button type="submit" [disabled]="youShallNotPass" [class.disabled]="youShallNotPass">UPDATE</button>
+            <input type="text" name="subtask" formControlName="subtasks" [placeholder]="oS.currentTodo.subtask[0].title" required #subtask (keyup)="checkForm()">
+
+            <button type="submit" class="margin-top" [disabled]="youShallNotPass" [class.disabled]="youShallNotPass">UPDATE</button>
         </form>
     
     </section>

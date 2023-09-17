@@ -2,8 +2,8 @@
 
     <section (click)="noBubble($event)">
         <button (click)="closeForm()" class="close-btn">CLOSE</button>
-        <form [formGroup]="todoForm" (ngSubmit)="create()" *ngIf="categories">
-            
+        <form [formGroup]="todoForm" (ngSubmit)="create()">
+
             <label for="title">Title</label>
             <input type="text" formControlName="title" name="title" [(ngModel)]="title" placeholder="Title" (keyup)="checkForm()">
 
@@ -14,9 +14,9 @@
             <input type="checkbox" formControlName="completed" name="status" [(ngModel)]="status">
 
             <label for="category">Category</label>
-            <select formControlName="category" name="category" [(ngModel)]="category" *ngIf="!this.oS.categoryOverlayVisible">
+            <select formControlName="category" name="category" [(ngModel)]="category" *ngIf="!this.oS.categoryOverlayVisible" (change)="displayColor($event)">
                 <option value="Create New" (click)="openCategoryForm()">Create New</option>
-                <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                <option *ngFor="let cat of this.dataService.categories$ | async" [value]="cat.name +','+ cat.color">{{ cat.name }} ({{ cat.color }})</option>
             </select>
 
             <app-add-category *ngIf="this.oS.categoryOverlayVisible"></app-add-category>

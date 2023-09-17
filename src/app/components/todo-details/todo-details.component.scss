@@ -19,7 +19,7 @@ section {
     border-radius: 0.5rem;
     padding: 1rem;
     width: 500px;
-    height: 500px;
+    height: fit-content;
     background-color: white;
     box-shadow: 4px 4px 4px 8px rgba(0,0,0,0.5);
 
@@ -29,7 +29,7 @@ section {
         justify-content: space-between;
         margin-bottom: 1rem;
         height: fit-content;
-        height: 90%;
+        height: 100%;
     }
 
     input {
@@ -40,6 +40,23 @@ section {
         border-bottom: 2px solid cornflowerblue;
         background-color: #ccc;
         height: 2rem;
+
+        &:focus {
+            outline: none;
+            border-bottom: 2px solid yellowgreen;
+            font-size: 1.2rem;
+            background-color: whitesmoke;
+        }
+    }
+
+    select {
+        padding: 0.5rem;
+        border-top: unset;
+        border-left: unset;
+        border-right: unset;
+        border-bottom: 2px solid cornflowerblue;
+        background-color: #ccc;
+        height: 50px;
 
         &:focus {
             outline: none;
@@ -83,6 +100,10 @@ section {
             background-color: orangered;
             color: white;
         }
+    }
+
+    .margin-top {
+        margin-top: 1rem;
     }
 }
 

@@ -3,20 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { DataService } from 'src/app/services/data.service';
-
-
-interface Todo {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
-  created_at: Date;
-  category: string;
-  priority: string;
-  due_date: Date;
-  assigned_to: string[];
-  subtasks: string[];
-}
+import { Todo } from 'src/app/models/todo.model';
 
 
 @Component({
@@ -29,7 +16,12 @@ export class TodoDetailsComponent {
   todoForm = new FormGroup({
     title: new FormControl(this.oS.currentTodo?.title),
     description: new FormControl(this.oS.currentTodo?.description),
-    completed: new FormControl(this.oS.currentTodo?.completed)
+    completed: new FormControl(this.oS.currentTodo?.completed),
+    category: new FormControl(this.oS.currentTodo?.category),
+    priority: new FormControl(this.oS.currentTodo?.priority),
+    dueDate: new FormControl(this.oS.currentTodo?.due_date),
+    assignedTo: new FormControl(this.oS.currentTodo?.assigned_to),
+    subtasks: new FormControl(this.oS.currentTodo?.subtask)
   });
 
   youShallNotPass = true;
@@ -38,7 +30,7 @@ export class TodoDetailsComponent {
   constructor(
     private router: Router,
     public oS: OverlayService,
-    private dataService: DataService
+    public dataService: DataService
   ) { }
 
 
@@ -58,15 +50,21 @@ export class TodoDetailsComponent {
   }
 
 
+  getDateString() {
+    let date: string = String(this.oS.currentTodo?.due_date).substring(0, 10);
+    return date;
+  }
+
+
   async updateTodo() {
-    let todo = this.addChangeS();
+    let todo = this.addChanges();
     this.dataService.updateTodoById(todo as Todo);
     this.oS.setSubjectTrue();
     this.close();
   }
 
 
-  addChangeS() {
+  addChanges() {
     let todo = {
       ...this.oS.currentTodo
     };

@@ -3,18 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
+import { Todo } from 'src/app/models/todo.model';
 
-interface Todo {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
-  created_at: Date;
-  category: string;
-  priority: string;
-  due_date: Date;
-  assigned_to: string[];
-  subtasks: string[];
+
+interface Category {
+  name: string;
+  color: string;
 }
 
 @Component({
@@ -23,15 +17,12 @@ interface Todo {
   styleUrls: ['./add-todo.component.scss']
 })
 export class AddTodoComponent {
-
-  categories!: string[];
-  categoryFormVisible: boolean = false;
   
 
   title: string = '';
   description: string = '';
   status: boolean = false;
-  category: string = '';
+  category: Category = { name: '', color: '' };
 
   todoForm = new FormGroup({
     title: new FormControl(this.title, Validators.required),
@@ -45,19 +36,12 @@ export class AddTodoComponent {
   constructor(
     public oS: OverlayService,
     private router: Router,
-    private dataService: DataService
+    public dataService: DataService
     ) { }
 
 
-  async ngOnInit(): Promise<void> {
-    this.categories = await this.dataService.getCategories().then((data) => {
-      return data;
-    });
-  }
-
-
   openCategoryForm() {
-    this.category = '';
+    this.category = { name: '', color: '' };
     this.oS.categoryOverlayVisible = true;
   }
 
@@ -70,6 +54,13 @@ export class AddTodoComponent {
     } else {
       console.log('invalid form');
     }
+  }
+
+
+  displayColor(e: any) {
+    console.log(e.target.value.split(','));
+    let color = e.target.value.split(',')[1];
+    e.target.style.color = color;
   }
 
   

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
+import { Category } from 'src/app/models/category.model';
 
 @Component({
   selector: 'app-add-category',
@@ -25,7 +26,8 @@ export class AddCategoryComponent {
 
 
   async createCategory() {
-    this.dataService.createCategory(this.newCategory, this.newColor);
+    let category = new Category(this.newCategory, this.newColor);
+    this.dataService.createCategory(category);
     this.closeCategoryForm();
   }
 

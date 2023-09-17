@@ -3,20 +3,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
+import { Todo } from 'src/app/models/todo.model';
 
-
-interface Todo {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
-  created_at: Date;
-  category: string;
-  priority: string;
-  due_date: Date;
-  assigned_to: string[];
-  subtasks: string[];
-}
 
 @Component({
   selector: 'app-all-todos',
@@ -58,6 +46,7 @@ export class AllTodosComponent implements OnInit, OnDestroy {
 
   viewTodo(todo: Todo) {
     this.oS.currentTodo = todo;
+    console.log(todo);
     this.router.navigate(['/todos/', todo.id]);
     this.oS.overlayVisible = true;
   }
