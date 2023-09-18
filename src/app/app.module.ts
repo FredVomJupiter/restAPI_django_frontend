@@ -11,6 +11,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { TodoDetailsComponent } from './components/todo-details/todo-details.component';
 import { AddTodoComponent } from './components/add-todo/add-todo.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { UpdateTodosComponent } from './components/update-todos/update-todos.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
     AllTodosComponent,
     TodoDetailsComponent,
     AddTodoComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    UpdateTodosComponent
   ],
   imports: [
     BrowserModule,

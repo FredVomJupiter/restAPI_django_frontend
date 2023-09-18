@@ -13,6 +13,8 @@
 }
 
 section {
+    display: flex;
+    flex-direction: column;
     max-width: 600px;
     margin: 2rem auto;
     border: 1px solid #ccc;
@@ -95,6 +97,7 @@ section {
 
     .close-btn {
         background-color: orange;
+        align-self: flex-end;
 
         &:hover {
             background-color: orangered;

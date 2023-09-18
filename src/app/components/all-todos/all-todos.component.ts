@@ -46,16 +46,16 @@ export class AllTodosComponent implements OnInit, OnDestroy {
 
   viewTodo(todo: Todo) {
     this.oS.currentTodo = todo;
-    console.log(todo);
+    this.oS.detailOverlayVisible = true;
     this.router.navigate(['/todos/', todo.id]);
-    this.oS.overlayVisible = true;
   }
 
 
   openForm() {
-    this.router.navigate(['/todos/add']);
     this.oS.addOverlayVisible = true;
+    this.router.navigate(['/todos/add']);
   }
+  
 
   logout() {
     localStorage.removeItem('token');
