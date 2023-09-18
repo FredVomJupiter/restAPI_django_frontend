@@ -1,0 +1,17 @@
+<div class="update-overlay" [class.visible]="this.oS.updateOverlayVisible" (click)="close()">
+    <section (click)="noBubble($event)">
+
+        <button class="close-btn" (click)="close()">CLOSE</button>
+    
+        <form [formGroup]="todoForm" (ngSubmit)="updateTodo()">
+        
+        
+        
+            <button type="submit" class="margin-top" [disabled]="youShallNotPass"
+            [class.disabled]="youShallNotPass">UPDATE</button>
+            
+        </form>
+    
+    </section>
+    
+</div>
