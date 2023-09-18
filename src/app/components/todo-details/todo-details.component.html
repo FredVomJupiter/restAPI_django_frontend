@@ -1,46 +1,48 @@
-<div class="detail-overlay" [class.visible]="this.oS.overlayVisible" (click)="close()">
+<div class="detail-overlay" [class.visible]="this.oS.detailOverlayVisible" (click)="close()">
 
     <section (click)="noBubble($event)" *ngIf="oS.currentTodo != null">
         <button class="close-btn" (click)="close()">CLOSE</button>
-    
-        <form [formGroup]="todoForm" (ngSubmit)="updateTodo()">
 
-            <label for="category">Category</label>
-            <select name="category" formControlName="category" required #category (keyup)="checkForm()">
-                <option [value]="oS.currentTodo.category.name" [selected]="oS.currentTodo.category.name">{{ oS.currentTodo.category.name }} ({{ oS.currentTodo.category.color }})</option>
-                <option *ngFor="let cat of this.dataService.categories$ | async" [value]="cat.name +','+ cat.color">{{ cat.name }} ({{ cat.color }})</option>
-            </select>
+        <div class="container">
+            <span class="category" [style.background]="oS.currentTodo.category.color"><b>{{ oS.currentTodo.category.name
+                    }}</b></span>
 
-            <label for="title">Title</label>
-            <input type="text" name="title" formControlName="title" [placeholder]="oS.currentTodo.title" required #title (keyup)="checkForm()">
+            <p>Title: <b>{{ oS.currentTodo.title }}</b></p>
 
-            <label for="description">Description</label>
-            <input type="text" name="description" formControlName="description" [placeholder]="oS.currentTodo.description" required #descr (keyup)="checkForm()">
+            <p>Description: <b>{{ oS.currentTodo.description }}</b></p>
 
-            <label for="completed">Status</label>
-            <input type="checkbox" name="completed" [checked]="oS.currentTodo.completed" formControlName="completed" required #status (keyup)="checkForm()">
+            <div class="row">
+                <p>Status: <b *ngIf="oS.currentTodo.completed">Done ✅</b>
+                    <b *ngIf="!oS.currentTodo.completed">Todo 📋</b>
+                </p>
 
-            <label for="priority">Priority</label>
-            <select name="priority" formControlName="priority" required #priority (keyup)="checkForm()">
-                <option value="low" [selected]="oS.currentTodo.priority.name == 'Low'">Low</option>
-                <option value="medium" [selected]="oS.currentTodo.priority.name == 'Medium'">Medium</option>
-                <option value="high" [selected]="oS.currentTodo.priority.name == 'High'">High</option>
-            </select>
-    
-            <label for="dueDate">Due Date</label>
-            <input type="date" name="dueDate" formControlName="dueDate" value="{{ getDateString() }}" required #dueDate (keyup)="checkForm()">
+                <p>Priority:
+                    <b *ngIf="oS.currentTodo.priority.name === 'High'">High 🔴</b>
+                    <b *ngIf="oS.currentTodo.priority.name === 'Medium'">Medium 🟠</b>
+                    <b *ngIf="oS.currentTodo.priority.name === 'Low'">Low 🟡</b>
+                </p>
+            </div>
 
-            <label for="assigned">Assigned to</label>
-            <select name="assigned" formControlName="assignedTo" required #assigned (keyup)="checkForm()">
-                <option value="me" [selected]="oS.currentTodo.assigned_to[0].username == 'me'">Me</option>
-            </select>
+            <p>Due date: <b>{{ oS.currentTodo.due_date | date }}</b></p>
 
-            <label for="subtask">Subtasks</label>
-            <input type="text" name="subtask" formControlName="subtasks" [placeholder]="oS.currentTodo.subtask[0].title" required #subtask (keyup)="checkForm()">
+            <div class="margin">
+                <span>Assigned to: <div class="dude"><b *ngFor="let dude of oS.currentTodo.assigned_to">{{ dude.name
+                            }}</b></div></span>
+            </div>
 
-            <button type="submit" class="margin-top" [disabled]="youShallNotPass" [class.disabled]="youShallNotPass">UPDATE</button>
-        </form>
-    
+            <div>
+                <p>Subtasks: </p>
+                <span class="flex-row" *ngFor="let sub of oS.currentTodo.subtask"><b>{{ sub.title }} </b>
+                    <div *ngIf="sub.completed">Done ✅</div>
+                    <div *ngIf="!sub.completed">Todo 📋</div>
+                </span>
+            </div>
+
+        </div>
+
+        <button (click)="openEditor()">EDIT 🖊️</button>
+
+
     </section>
 
 </div>
