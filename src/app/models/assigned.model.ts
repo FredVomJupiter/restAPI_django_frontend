@@ -1,6 +1,6 @@
 export class Assigned {
 
     constructor(
-        public username: string
+        public name: string
     ) { }
 }
