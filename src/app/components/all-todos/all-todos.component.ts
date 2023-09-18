@@ -45,6 +45,7 @@ export class AllTodosComponent implements OnInit, OnDestroy {
 
 
   viewTodo(todo: Todo) {
+    console.log(todo);
     this.oS.currentTodo = todo;
     this.oS.detailOverlayVisible = true;
     this.router.navigate(['/todos/', todo.id]);

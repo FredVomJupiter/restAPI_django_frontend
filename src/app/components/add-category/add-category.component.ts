@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Category } from 'src/app/models/category.model';
@@ -15,8 +15,8 @@ export class AddCategoryComponent {
   newColor: string = '';
 
   categoryForm = new FormGroup({
-    newCategory: new FormControl(''),
-    newColor: new FormControl('')
+    newCategory: new FormControl('', Validators.required),
+    newColor: new FormControl('', Validators.required)
   });
 
   constructor(
@@ -26,7 +26,7 @@ export class AddCategoryComponent {
 
 
   async createCategory() {
-    let category = new Category(this.newCategory, this.newColor);
+    let category = new Category(0, this.newCategory, this.newColor);
     this.dataService.createCategory(category);
     this.closeCategoryForm();
   }

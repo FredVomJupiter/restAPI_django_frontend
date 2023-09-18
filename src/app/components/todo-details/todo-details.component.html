@@ -4,8 +4,10 @@
         <button class="close-btn" (click)="close()">CLOSE</button>
 
         <div class="container">
-            <span class="category" [style.background]="oS.currentTodo.category.color"><b>{{ oS.currentTodo.category.name
-                    }}</b></span>
+            <div *ngFor="let cat of this.dataService.categories$ |async">
+                <span *ngIf="cat.id === oS.currentTodo.category" class="category" [style.background]="cat.color"><b>{{ cat.name }}</b></span>
+            </div>
+            
 
             <p>Title: <b>{{ oS.currentTodo.title }}</b></p>
 

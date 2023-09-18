@@ -1,5 +1,5 @@
 <form class="submenu" [formGroup]="categoryForm">
-    <input type="text" formControlName="newCategory" name="newCategory" [(ngModel)]="newCategory" placeholder="New Category">
+    <input type="text" formControlName="newCategory" name="newCategory" [(ngModel)]="newCategory" placeholder="New Category" maxlength="100">
     <select formControlName="newColor" name="color" [(ngModel)]="newColor">
         <option value="blue">blue</option>
         <option value="red">red</option>

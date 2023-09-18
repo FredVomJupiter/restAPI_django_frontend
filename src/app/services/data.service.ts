@@ -4,6 +4,7 @@ import { Observable, lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Category } from '../models/category.model';
 import { Todo } from '../models/todo.model';
+import { Contact } from '../models/contact.model';
 
 
 @Injectable({
@@ -13,23 +14,32 @@ export class DataService {
 
   todos$: Observable<Todo[]> = new Observable<Todo[]>();
   categories$: Observable<Category[]> = new Observable<Category[]>();
+  contacts$: Observable<Contact[]> = new Observable<Contact[]>();
+  user: any;
 
   constructor(
     private http: HttpClient
-    ) {
-      this.load();
-    }
+  ) {
+    this.load();
+  }
 
-  
+
   async load() {
     console.log('loading');
     let todos = await this.getTodos();
     this.todos$ = new Observable<Todo[]>(subscriber => {
+      console.log(todos)
       subscriber.next(todos);
     });
     let categories = await this.getCategories();
     this.categories$ = new Observable<Category[]>(subscriber => {
       subscriber.next(categories);
+    });
+    this.user = await this.getUser();
+    let contacts = await this.getContacts();
+    this.contacts$ = new Observable<Contact[]>(subscriber => {
+      let merged = [...contacts, {id: this.user.id, name: this.user.username, email: this.user.email}]
+      subscriber.next(merged);
     });
   }
 
@@ -46,6 +56,18 @@ export class DataService {
   }
 
 
+  async getContacts() {
+    const url = environment.baseUrl + '/api/v1/contacts/';
+    return await lastValueFrom(this.http.get<any>(url));
+  }
+
+
+  async getUser() {
+    const url = environment.baseUrl + '/api/v1/user/';
+    return await lastValueFrom(this.http.get<any>(url));
+  }
+
+
   async createCategory(category: Category) {
     const url = environment.baseUrl + '/api/v1/categories/';
     const body = category;
@@ -56,6 +78,17 @@ export class DataService {
     });
   }
 
+
+  async createContact(contact: Contact) {
+    const url = environment.baseUrl + '/api/v1/contacts/';
+    const body = contact;
+    await lastValueFrom(this.http.post<any>(url, body));
+    let contacts = await this.getContacts();
+    this.contacts$ = new Observable<any[]>(subscriber => {
+      subscriber.next(contacts);
+    });
+  }
+  
 
   async createTodo(data: Todo) {
     const url = environment.baseUrl + '/api/v1/todos/';

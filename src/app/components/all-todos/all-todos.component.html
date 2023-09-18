@@ -5,7 +5,10 @@
     <button (click)="openForm()">ADD</button>
 
     <div *ngFor="let todo of this.dataService.todos$ | async" class="todo" (click)="viewTodo(todo)">
-        <span class="category" [style.background]="todo.category.color"><b>{{ todo.category.name }}</b></span>
+        <div *ngFor="let cat of this.dataService.categories$ | async">
+            <span *ngIf="cat.id === todo.category" class="category" [style.background]="cat.color"><b>{{ cat.name }}</b></span>
+        </div>
+        
         <p>
             Title: <b>{{ todo.title }}</b>
         </p>
