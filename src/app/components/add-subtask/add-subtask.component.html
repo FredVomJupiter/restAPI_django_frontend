@@ -1,0 +1,5 @@
+<form class="submenu" [formGroup]="subtaskForm">
+    <input type="text" formControlName="subtasks" name="subtasks" [(ngModel)]="newSubtask.title" placeholder="Subtask" maxlength="100">
+    <input type="checkbox" formControlName="completion" [(ngModel)]="newSubtask.completed">
+    <div class="add-btn" (click)="addSubtask()">Add</div>
+</form>

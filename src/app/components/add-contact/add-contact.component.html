@@ -1,0 +1,9 @@
+<form class="submenu" [formGroup]="contactForm">
+    <input type="text" formControlName="newName" name="newName" [(ngModel)]="newName" placeholder="Name" maxlength="100">
+    <input type="text" formControlName="newEmail" name="newEmail" [(ngModel)]="newEmail" placeholder="Email" maxlength="100">
+    <input type="text" formControlName="newPhone" name="newPhone" [(ngModel)]="newPhone" placeholder="Phone" maxlength="100">
+
+    <div class="add-btn" (click)="createContact()">Add</div><div class="close-btn" (click)="closeContactForm()">Back</div>
+</form>
+
+<span [class.alert]="invalid" class="hidden">All fields are required!</span>

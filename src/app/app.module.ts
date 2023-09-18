@@ -12,6 +12,8 @@ import { TodoDetailsComponent } from './components/todo-details/todo-details.com
 import { AddTodoComponent } from './components/add-todo/add-todo.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { UpdateTodosComponent } from './components/update-todos/update-todos.component';
+import { AddContactComponent } from './components/add-contact/add-contact.component';
+import { AddSubtaskComponent } from './components/add-subtask/add-subtask.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { UpdateTodosComponent } from './components/update-todos/update-todos.com
     TodoDetailsComponent,
     AddTodoComponent,
     AddCategoryComponent,
-    UpdateTodosComponent
+    UpdateTodosComponent,
+    AddContactComponent,
+    AddSubtaskComponent
   ],
   imports: [
     BrowserModule,
