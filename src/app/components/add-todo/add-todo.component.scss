@@ -16,22 +16,22 @@ section {
     display: flex;
     flex-direction: column;
     max-width: 600px;
-    margin: 2rem auto;
+    margin: 5% auto;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
     padding: 1rem;
     width: 600px;
-    height: 500px;
+    height: 85%;
     background-color: white;
     box-shadow: 4px 4px 4px 8px rgba(0, 0, 0, 0.5);
+    overflow: scroll;
 
     form {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         margin-bottom: 1rem;
-        height: fit-content;
-        height: 90%;
+        gap: 1rem;
     }
 
     input {
@@ -68,6 +68,10 @@ section {
         }
     }
 
+    .multiple-select {
+        height: 100px;
+    }
+
     button {
         padding: 0.5rem;
         border: 1px solid #ccc;
@@ -96,8 +100,13 @@ section {
     }
 
     .close-btn {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        text-align: center;
         background-color: orange;
         align-self: flex-end;
+        cursor: pointer;
 
         &:hover {
             background-color: orangered;
@@ -119,4 +128,13 @@ section {
 
 .circle {
     border-radius: 50%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    max-width: 100%;
+    word-break: break-all;
 }

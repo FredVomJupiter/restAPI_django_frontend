@@ -1,14 +1,14 @@
 <div (click)="closeForm()" class="background" [class.visible]="this.oS.addOverlayVisible">
 
-    <section (click)="noBubble($event)">
+    <section (click)="noBubble($event)" (change)="showFormValues()">
         <button (click)="closeForm()" class="close-btn">CLOSE</button>
         <form [formGroup]="todoForm" (ngSubmit)="create()">
 
             <label for="title">Title</label>
-            <input type="text" formControlName="title" name="title" [(ngModel)]="title" placeholder="Title" (keyup)="checkForm()">
+            <input type="text" formControlName="title" name="title" [(ngModel)]="title" placeholder="Title" maxlength="100">
 
             <label for="description">Description</label>
-            <input type="text" formControlName="description" name="description" [(ngModel)]="description" placeholder="Description" (keyup)="checkForm()">
+            <input type="text" formControlName="description" name="description" [(ngModel)]="description" placeholder="Description" maxlength="500">
 
             <label for="status">Status</label>
             <input type="checkbox" formControlName="completed" name="status" [(ngModel)]="status">
@@ -16,12 +16,48 @@
             <label for="category">Category</label>
             <select formControlName="category" name="category" [(ngModel)]="category" *ngIf="!this.oS.categoryOverlayVisible" (change)="displayColor($event)">
                 <option value="Create New" (click)="openCategoryForm()">Create New</option>
-                <option *ngFor="let cat of this.dataService.categories$ | async" [value]="cat.name +','+ cat.color">{{ cat.name }} ({{ cat.color }})</option>
+                <option *ngFor="let cat of this.dataService.categories$ | async" [value]="cat.id">{{ cat.name }} ({{ cat.color }})</option>
             </select>
 
+            <!-- add category submenu -->
             <app-add-category *ngIf="this.oS.categoryOverlayVisible"></app-add-category>
 
-            <button type="submit" [disabled]="youShallNotPass" [class.disabled]="youShallNotPass">CREATE</button>
+            <label for="priority">Priority</label>
+            <select formControlName="priority" name="priority" [(ngModel)]="priority">
+                <option value="Low">Low 🟡</option>
+                <option value="Medium">Medium 🟠</option>
+                <option value="High">High 🔴</option>
+            </select>
+
+            <label for="dueDate">Due Date</label>
+            <input type="date" formControlName="dueDate" name="dueDate" [(ngModel)]="dueDate">
+
+            <label for="assigedTo">Assigned to (ctrl or command to select multiple)</label>
+            <select class="multiple-select" formControlName="assignedTo" name="assignedTo" [(ngModel)]="assignedTo" multiple *ngIf="!this.oS.contactOverlayVisible" >
+                <option (click)="resetAssignments()">None</option>
+                <option value="Create New" (click)="openContactForm()">Create New</option>
+                <option *ngFor="let contact of this.dataService.contacts$ | async" [value]="contact.id">{{ contact.name }}</option>
+            </select>
+
+            <!-- add contact submenu -->
+            <app-add-contact *ngIf="this.oS.contactOverlayVisible"></app-add-contact>
+
+            <div *ngIf="this.assignedTo && this.assignedTo.length > 0 && !this.oS.contactOverlayVisible">
+                <span *ngFor="let selected of this.dataService.contacts$ | async">
+                    <span *ngIf="isSelected(selected.id)">🥷 {{ selected.name }}, </span>
+                </span>
+            </div>
+
+            <label for="subtasks">Subtasks</label>
+            <app-add-subtask></app-add-subtask>
+
+            <span class="row" *ngFor="let sub of this.subtasks">{{ sub.title }} 
+                <div *ngIf="sub.completed">Done ✅</div>
+                <div *ngIf="!sub.completed">Todo 📋</div>
+                <div class="close-btn" (click)="deleteSubtask(sub)">🗑️</div>
+            </span>
+
+            <button type="submit" [disabled]="this.todoForm.invalid" [class.disabled]="this.todoForm.invalid">CREATE</button>
         </form>
     </section>
     
