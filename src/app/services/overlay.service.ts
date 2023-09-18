@@ -7,10 +7,12 @@ import { Todo } from '../models/todo.model';
   providedIn: 'root'
 })
 export class OverlayService {
-
-  overlayVisible: boolean = false;
+ 
   addOverlayVisible: boolean = false;
+  detailOverlayVisible: boolean = false;
+  updateOverlayVisible: boolean = false;
   categoryOverlayVisible: boolean = false;
+  
   currentTodo: Todo | null = null;
 
   subject = new Subject<boolean>();
