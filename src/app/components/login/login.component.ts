@@ -21,6 +21,7 @@ export class LoginComponent {
 
 
   async login() {
+    this.handleActivationAndAnimation();
     try {
       let resp = await this.authService.loginWithUsernameAndPassword(this.username, this.password);
       localStorage.setItem('token', resp.token);
@@ -31,16 +32,11 @@ export class LoginComponent {
       }
     }
     catch (error) {
+      this.loading = false;
+      this.visible = true;
       console.error(error);
+      this.error = 'Login failed, check internet connection...'
     }
-  }
-
-
-  handleError() {
-    this.error = 'Wrong username or password';
-    this.visible = true;
-    setTimeout(() => {this.visible = false;}, 3000);
-    throw new Error('No token received');
   }
 
 
@@ -56,15 +52,27 @@ export class LoginComponent {
       }
     }
     catch (error) {
+      this.loading = false;
+      this.visible = true;
       console.error(error);
+      this.error = 'Login failed, check internet connection...'
     }
   }
 
-  
+
   handleActivationAndAnimation() {
     if (this.active === false) {
       return;
     }
     this.loading = true;
   }
+
+
+  handleError() {
+    this.loading = false;
+    this.error = 'Wrong username or password';
+    this.visible = true;
+    setTimeout(() => {this.visible = false;}, 3000);
+    throw new Error('No token received');
+  }  
 }
