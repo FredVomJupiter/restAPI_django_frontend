@@ -1,6 +1,6 @@
 import { Component, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subtask } from 'src/app/models/subtask.model';
+import { Subtasks } from 'src/app/models/subtask.model';
 import { OverlayService } from 'src/app/services/overlay.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { OverlayService } from 'src/app/services/overlay.service';
 })
 export class AddSubtaskComponent {
 
-  @Output() newSubtask: Subtask = {
+  @Output() newSubtask: Subtasks = {
     title: '',
     completed: false
   };

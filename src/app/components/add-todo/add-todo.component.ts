@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Todo } from 'src/app/models/todo.model';
-import { Subtask } from 'src/app/models/subtask.model';
-import { Assigned } from 'src/app/models/assigned.model';
+import { Subtasks } from 'src/app/models/subtask.model'
 
 
 @Component({
@@ -33,7 +32,7 @@ export class AddTodoComponent {
     priority: new FormControl(this.priority, Validators.required),
     due_date: new FormControl(this.dueDate, Validators.required),
     assigned_to: new FormControl(this.assignedTo, Validators.required),
-    subtask: new FormControl(this.oS.subtasks)
+    subtasks: new FormControl(this.oS.subtasks)
   });
 
   constructor(
@@ -44,7 +43,7 @@ export class AddTodoComponent {
 
 
   showFormValues() {
-    this.todoForm.value.subtask = this.oS.subtasks;
+    this.todoForm.value.subtasks = this.oS.subtasks;
     console.log(this.todoForm.value);
   }
 
@@ -58,7 +57,7 @@ export class AddTodoComponent {
   async create() {
     if (this.todoForm.valid) {
       console.log(this.todoForm.value);
-      this.dataService.createTodo(this.todoForm.value as Todo)
+      await this.dataService.createTodo(this.todoForm.value as Todo)
       this.oS.setSubjectTrue();
       this.closeForm();
     } else {
@@ -89,7 +88,7 @@ export class AddTodoComponent {
   }
 
 
-  deleteSubtask(sub: Subtask) {
+  deleteSubtask(sub: Subtasks) {
     this.oS.subtasks.splice(this.oS.subtasks.indexOf(sub), 1);
   }
 

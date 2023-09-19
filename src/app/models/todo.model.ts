@@ -1,4 +1,4 @@
-import { Subtask } from './subtask.model';
+import { Subtasks } from './subtask.model';
 
 export class Todo {
 
@@ -11,7 +11,7 @@ export class Todo {
         public priority: number,
         public due_date: Date,
         public assigned_to: number[],
-        public subtasks: Subtask[]
+        public subtasks: Subtasks[]
     ) { }
 
 

@@ -92,9 +92,10 @@ export class DataService {
   
 
   async createTodo(data: Todo) {
-    console.log(data);
+    console.log("Logging:", data);
     const url = environment.baseUrl + '/api/v1/todos/';
-    await lastValueFrom(this.http.post<any>(url, data));
+    const body = data;
+    await lastValueFrom(this.http.post<any>(url, body));
     let todos = await this.getTodos();
     this.todos$ = new Observable<Todo[]>(subscriber => {
       subscriber.next(todos);
