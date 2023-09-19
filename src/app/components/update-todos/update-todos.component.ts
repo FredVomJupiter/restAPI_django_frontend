@@ -44,7 +44,7 @@ export class UpdateTodosComponent implements OnInit {
     priority: new FormControl(this.oS.currentTodo?.priority),
     dueDate: new FormControl(this.oS.currentTodo?.due_date),
     assignedTo: new FormControl(this.oS.currentTodo?.assigned_to),
-    subtasks: new FormControl(this.oS.currentTodo?.subtask)
+    subtasks: new FormControl(this.oS.currentTodo?.subtasks)
   });
 
 
