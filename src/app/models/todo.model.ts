@@ -1,4 +1,3 @@
-import { Priority } from './priority.model';
 import { Subtask } from './subtask.model';
 
 export class Todo {
@@ -9,7 +8,7 @@ export class Todo {
         public description: string,
         public completed: boolean,
         public category: number,
-        public priority: Priority,
+        public priority: number,
         public due_date: Date,
         public assigned_to: number[],
         public subtask: Subtask[]

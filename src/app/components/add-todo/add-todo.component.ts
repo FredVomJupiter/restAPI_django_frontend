@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Todo } from 'src/app/models/todo.model';
-import { Priority } from 'src/app/models/priority.model';
 import { Subtask } from 'src/app/models/subtask.model';
+import { Assigned } from 'src/app/models/assigned.model';
 
 
 @Component({
@@ -20,9 +20,9 @@ export class AddTodoComponent {
   description: string = '';
   status: boolean = false;
   category: number = 0;
-  priority: Priority = { name: 'Low' };
+  priority: number = 1;
   dueDate: Date = new Date();
-  assignedTo: number[] = [];
+  assignedTo: any[] = [];
 
 
   todoForm = new FormGroup({
@@ -31,9 +31,9 @@ export class AddTodoComponent {
     description: new FormControl(this.description, Validators.required),
     completed: new FormControl(this.status),
     priority: new FormControl(this.priority, Validators.required),
-    dueDate: new FormControl(this.dueDate, Validators.required),
-    assignedTo: new FormControl(this.assignedTo, Validators.required),
-    subtasks: new FormControl(this.oS.subtasks)
+    due_date: new FormControl(this.dueDate, Validators.required),
+    assigned_to: new FormControl(this.assignedTo, Validators.required),
+    subtask: new FormControl(this.oS.subtasks)
   });
 
   constructor(
@@ -44,7 +44,7 @@ export class AddTodoComponent {
 
 
   showFormValues() {
-    this.todoForm.value.subtasks = this.oS.subtasks;
+    this.todoForm.value.subtask = this.oS.subtasks;
     console.log(this.todoForm.value);
   }
 
@@ -57,6 +57,7 @@ export class AddTodoComponent {
 
   async create() {
     if (this.todoForm.valid) {
+      console.log(this.todoForm.value);
       this.dataService.createTodo(this.todoForm.value as Todo)
       this.oS.setSubjectTrue();
       this.closeForm();

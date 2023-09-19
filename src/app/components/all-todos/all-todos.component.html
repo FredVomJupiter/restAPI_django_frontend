@@ -26,9 +26,9 @@
             </p>
 
             <p>Priority:
-                <b *ngIf="todo.priority.name === 'High'">High 🔴</b>
-                <b *ngIf="todo.priority.name === 'Medium'">Medium 🟠</b>
-                <b *ngIf="todo.priority.name === 'Low'">Low 🟡</b>
+                <b *ngIf="todo.priority === 3">High 🔴</b>
+                <b *ngIf="todo.priority === 2">Medium 🟠</b>
+                <b *ngIf="todo.priority === 1">Low 🟡</b>
             </p>
         </div>
 

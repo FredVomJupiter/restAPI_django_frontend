@@ -21,9 +21,9 @@
                 </p>
 
                 <p>Priority:
-                    <b *ngIf="oS.currentTodo.priority.name === 'High'">High 🔴</b>
-                    <b *ngIf="oS.currentTodo.priority.name === 'Medium'">Medium 🟠</b>
-                    <b *ngIf="oS.currentTodo.priority.name === 'Low'">Low 🟡</b>
+                    <b *ngIf="oS.currentTodo.priority === 3">High 🔴</b>
+                    <b *ngIf="oS.currentTodo.priority === 2">Medium 🟠</b>
+                    <b *ngIf="oS.currentTodo.priority === 1">Low 🟡</b>
                 </p>
             </div>
 
@@ -34,7 +34,7 @@
                     <div class="flex-row">
                         <div class="dude" *ngFor="let dude of oS.currentTodo.assigned_to">
                             <span *ngFor="let contact of this.dataService.contacts$ | async">
-                                <b *ngIf="contact.id === dude">{{ contact.name }}</b>
+                                <b *ngIf=" contact.id === dude">{{ contact.name }}</b>
                             </span>
                         </div>
                     </div>

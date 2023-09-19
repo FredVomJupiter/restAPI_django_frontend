@@ -24,16 +24,16 @@
 
             <label for="priority">Priority</label>
             <select formControlName="priority" name="priority" [(ngModel)]="priority">
-                <option value="Low">Low 🟡</option>
-                <option value="Medium">Medium 🟠</option>
-                <option value="High">High 🔴</option>
+                <option value="1">Low 🟡</option>
+                <option value="2">Medium 🟠</option>
+                <option value="3">High 🔴</option>
             </select>
 
             <label for="dueDate">Due Date</label>
-            <input type="date" formControlName="dueDate" name="dueDate" [(ngModel)]="dueDate">
+            <input type="date" formControlName="due_date" name="dueDate" [(ngModel)]="dueDate">
 
             <label for="assigedTo">Assigned to (ctrl or command to select multiple)</label>
-            <select class="multiple-select" formControlName="assignedTo" name="assignedTo" [(ngModel)]="assignedTo" multiple *ngIf="!this.oS.contactOverlayVisible" >
+            <select class="multiple-select" formControlName="assigned_to" name="assignedTo" [(ngModel)]="assignedTo" multiple *ngIf="!this.oS.contactOverlayVisible" >
                 <option (click)="resetAssignments()">None</option>
                 <option value="Create New" (click)="openContactForm()">Create New</option>
                 <option *ngFor="let contact of this.dataService.contacts$ | async" [value]="contact.id">{{ contact.name }}</option>
