@@ -1,7 +1,5 @@
 import { Priority } from './priority.model';
-import { Assigned } from './assigned.model';
 import { Subtask } from './subtask.model';
-import { Category } from './category.model';
 
 export class Todo {
 
@@ -13,7 +11,7 @@ export class Todo {
         public category: number,
         public priority: Priority,
         public due_date: Date,
-        public assigned_to: Assigned[],
+        public assigned_to: number[],
         public subtask: Subtask[]
     ) { }
 

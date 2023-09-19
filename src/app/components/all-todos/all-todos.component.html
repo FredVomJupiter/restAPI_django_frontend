@@ -1,12 +1,12 @@
 <section>
-    <h1>Welcome Backstage</h1>
+    <div class="row"><h1>Welcome Backstage</h1> <button (click)="logout()" class="logout-btn">LOGOUT</button></div>
 
     <h2>My Todos</h2>
     <button (click)="openForm()">ADD</button>
 
     <div *ngFor="let todo of this.dataService.todos$ | async" class="todo" (click)="viewTodo(todo)">
         <div *ngFor="let cat of this.dataService.categories$ | async">
-            <span *ngIf="cat.id === todo.category" class="category" [style.background]="cat.color"><b>{{ cat.name }}</b></span>
+            <p *ngIf="cat.id === todo.category" class="category" [style.background]="cat.color"><b>{{ cat.name }}</b></p>
         </div>
         
         <p>
@@ -37,5 +37,4 @@
     <app-update-todos></app-update-todos>
 
 
-    <button (click)="logout()" class="logout-btn">LOGOUT</button>
 </section>

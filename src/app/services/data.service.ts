@@ -38,8 +38,7 @@ export class DataService {
     this.user = await this.getUser();
     let contacts = await this.getContacts();
     this.contacts$ = new Observable<Contact[]>(subscriber => {
-      let merged = [...contacts, {id: this.user.id, name: this.user.username, email: this.user.email}]
-      subscriber.next(merged);
+      subscriber.next(contacts);
     });
   }
 
@@ -91,6 +90,7 @@ export class DataService {
   
 
   async createTodo(data: Todo) {
+    console.log(data);
     const url = environment.baseUrl + '/api/v1/todos/';
     await lastValueFrom(this.http.post<any>(url, data));
     let todos = await this.getTodos();

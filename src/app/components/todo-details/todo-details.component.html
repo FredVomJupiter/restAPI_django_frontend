@@ -5,9 +5,11 @@
 
         <div class="container">
             <div *ngFor="let cat of this.dataService.categories$ |async">
-                <span *ngIf="cat.id === oS.currentTodo.category" class="category" [style.background]="cat.color"><b>{{ cat.name }}</b></span>
+                <p *ngIf="cat.id === oS.currentTodo.category" class="category" [style.background]="cat.color">
+                    <b>{{ cat.name }}</b>
+                </p>
             </div>
-            
+
 
             <p>Title: <b>{{ oS.currentTodo.title }}</b></p>
 
@@ -28,8 +30,15 @@
             <p>Due date: <b>{{ oS.currentTodo.due_date | date }}</b></p>
 
             <div class="margin">
-                <span>Assigned to: <div class="dude"><b *ngFor="let dude of oS.currentTodo.assigned_to">{{ dude.name
-                            }}</b></div></span>
+                <span>Assigned to:
+                    <div class="flex-row">
+                        <div class="dude" *ngFor="let dude of oS.currentTodo.assigned_to">
+                            <span *ngFor="let contact of this.dataService.contacts$ | async">
+                                <b *ngIf="contact.id === dude">{{ contact.name }}</b>
+                            </span>
+                        </div>
+                    </div>
+                </span>
             </div>
 
             <div>
