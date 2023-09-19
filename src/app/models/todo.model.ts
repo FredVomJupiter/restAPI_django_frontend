@@ -11,7 +11,7 @@ export class Todo {
         public priority: number,
         public due_date: Date,
         public assigned_to: number[],
-        public subtask: Subtask[]
+        public subtasks: Subtask[]
     ) { }
 
 

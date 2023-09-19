@@ -43,7 +43,7 @@
 
             <div>
                 <p>Subtasks: </p>
-                <span class="flex-row" *ngFor="let sub of oS.currentTodo.subtask"><b>{{ sub.title }} </b>
+                <span class="flex-row" *ngFor="let sub of oS.currentTodo.subtasks"><b>{{ sub.title }} </b>
                     <div *ngIf="sub.completed">Done ✅</div>
                     <div *ngIf="!sub.completed">Todo 📋</div>
                 </span>
