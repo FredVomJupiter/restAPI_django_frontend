@@ -67,3 +67,56 @@ button {
     align-items: center;
     gap: 1rem;
 }
+
+.loading-box {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    color: black;
+    animation: loading 1s ease-in-out infinite;
+    cursor: pointer;
+}
+
+.visible {
+    display: flex;
+}
+
+@keyframes loading {
+    0% {
+        background: linear-gradient(to right, #96c93d 0%, #ccc 10%);
+    }
+    10% {
+        background: linear-gradient(to right, #96c93d 10%, #ccc 20%);
+    }
+    20% {
+        background: linear-gradient(to right, #96c93d 20%, #ccc 30%);
+    }
+    30% {
+        background: linear-gradient(to right, #96c93d 30%, #ccc 40%);
+    }
+    40% {
+        background: linear-gradient(to right, #96c93d 40%, #ccc 50%);
+    }
+    50% {
+        background: linear-gradient(to right, #96c93d 50%, #ccc 60%);
+    }
+    60% {
+        background: linear-gradient(to right, #96c93d 60%, #ccc 70%);
+    }
+    70% {
+        background: linear-gradient(to right, #96c93d 70%, #ccc 80%);
+    }
+    80% {
+        background: linear-gradient(to right, #96c93d 80%, #ccc 90%);
+    }
+    90% {
+        background: linear-gradient(to right, #96c93d 90%, #ccc 100%);
+    }
+    100% {
+        background: linear-gradient(to right, #96c93d 100%, #ccc 100%);
+    }
+}

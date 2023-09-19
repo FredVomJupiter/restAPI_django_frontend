@@ -6,8 +6,6 @@ import { OverlayService } from 'src/app/services/overlay.service';
 import { Todo } from 'src/app/models/todo.model';
 import { Priority } from 'src/app/models/priority.model';
 import { Subtask } from 'src/app/models/subtask.model';
-import { Assigned } from 'src/app/models/assigned.model';
-import { Category } from 'src/app/models/category.model';
 
 
 @Component({
@@ -25,7 +23,6 @@ export class AddTodoComponent {
   priority: Priority = { name: 'Low' };
   dueDate: Date = new Date();
   assignedTo: number[] = [];
-  subtasks: Subtask[] = this.oS.subtasks;
 
 
   todoForm = new FormGroup({
@@ -36,7 +33,7 @@ export class AddTodoComponent {
     priority: new FormControl(this.priority, Validators.required),
     dueDate: new FormControl(this.dueDate, Validators.required),
     assignedTo: new FormControl(this.assignedTo, Validators.required),
-    subtasks: new FormControl(this.subtasks)
+    subtasks: new FormControl(this.oS.subtasks)
   });
 
   constructor(
@@ -47,6 +44,7 @@ export class AddTodoComponent {
 
 
   showFormValues() {
+    this.todoForm.value.subtasks = this.oS.subtasks;
     console.log(this.todoForm.value);
   }
 
@@ -97,6 +95,10 @@ export class AddTodoComponent {
 
   closeForm() {
     this.todoForm.reset();
+    this.oS.subtasks = [];
+    console.log(this.oS.subtasks);
+    console.log(this.todoForm.value);
+
     this.oS.addOverlayVisible = false;
     this.router.navigate(['/todos']);
   }

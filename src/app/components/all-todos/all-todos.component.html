@@ -4,6 +4,10 @@
     <h2>My Todos</h2>
     <button (click)="openForm()">ADD</button>
 
+    <div class="loading-box" [class.visible]="this.dataService.loading">
+        <p *ngIf="this.dataService.loading">Loading...</p>
+    </div>
+
     <div *ngFor="let todo of this.dataService.todos$ | async" class="todo" (click)="viewTodo(todo)">
         <div *ngFor="let cat of this.dataService.categories$ | async">
             <p *ngIf="cat.id === todo.category" class="category" [style.background]="cat.color"><b>{{ cat.name }}</b></p>

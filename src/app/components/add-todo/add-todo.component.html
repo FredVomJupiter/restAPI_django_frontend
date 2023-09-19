@@ -51,7 +51,7 @@
             <label for="subtasks">Subtasks</label>
             <app-add-subtask></app-add-subtask>
 
-            <span class="row" *ngFor="let sub of this.subtasks">{{ sub.title }} 
+            <span class="row" *ngFor="let sub of this.oS.subtasks">{{ sub.title }} 
                 <div *ngIf="sub.completed">Done ✅</div>
                 <div *ngIf="!sub.completed">Todo 📋</div>
                 <div class="close-btn" (click)="deleteSubtask(sub)">🗑️</div>

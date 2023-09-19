@@ -16,6 +16,7 @@ export class DataService {
   categories$: Observable<Category[]> = new Observable<Category[]>();
   contacts$: Observable<Contact[]> = new Observable<Contact[]>();
   user: any;
+  loading: boolean = false;
 
   constructor(
     private http: HttpClient
@@ -25,7 +26,7 @@ export class DataService {
 
 
   async load() {
-    console.log('loading');
+    this.loading = true;
     let todos = await this.getTodos();
     this.todos$ = new Observable<Todo[]>(subscriber => {
       console.log(todos)
@@ -40,6 +41,7 @@ export class DataService {
     this.contacts$ = new Observable<Contact[]>(subscriber => {
       subscriber.next(contacts);
     });
+    this.loading = false;
   }
 
 
