@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
@@ -12,7 +12,7 @@ import { Subtasks } from 'src/app/models/subtask.model'
   templateUrl: './add-todo.component.html',
   styleUrls: ['./add-todo.component.scss']
 })
-export class AddTodoComponent {
+export class AddTodoComponent implements OnInit, OnDestroy {
 
 
   title: string = '';
@@ -40,6 +40,16 @@ export class AddTodoComponent {
     private router: Router,
     public dataService: DataService
   ) { }
+
+
+  ngOnInit(): void {
+    console.log("Init add component");
+  }
+
+
+  ngOnDestroy(): void {
+    console.log("destroying add component");
+  }
 
 
   showFormValues() {
@@ -98,8 +108,6 @@ export class AddTodoComponent {
     this.oS.subtasks = [];
     console.log(this.oS.subtasks);
     console.log(this.todoForm.value);
-
-    this.oS.addOverlayVisible = false;
     this.router.navigate(['/todos']);
   }
 
