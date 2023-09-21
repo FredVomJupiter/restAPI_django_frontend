@@ -12,12 +12,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'todos', component: AllTodosComponent, canActivate: [authGuard],
     children: [
-      { path: ':id', component: TodoDetailsComponent, canActivate: [authGuard] },
       { path: 'add', component: AddTodoComponent, canActivate: [authGuard] },
-      { path: 'update', component: UpdateTodosComponent, canActivate: [authGuard] }
+      { path: 'update', component: UpdateTodosComponent, canActivate: [authGuard] },
+      { path: ':id', component: TodoDetailsComponent, canActivate: [authGuard] },
     ]
   },
-
 ];
 
 @NgModule({
