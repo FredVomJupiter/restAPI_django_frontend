@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Todo } from 'src/app/models/todo.model';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { DatePipe, Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { combineLatest, map } from 'rxjs';
+import { Subtasks } from 'src/app/models/subtask.model';
 
 @Component({
   providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}],
@@ -12,14 +14,35 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
   templateUrl: './update-todos.component.html',
   styleUrls: ['./update-todos.component.scss']
 })
-export class UpdateTodosComponent implements OnInit {
+export class UpdateTodosComponent implements OnInit, OnDestroy {
 
-  youShallNotPass = true;
+  title: string = this.oS.currentTodo?.title || '';
+  description: string = this.oS.currentTodo?.description || '';
+  status: boolean = this.oS.currentTodo?.completed || false;
+  category: number = this.oS.currentTodo?.category || 0;
+  priority: number = this.oS.currentTodo?.priority || 0;
+  dueDate: Date = this.oS.currentTodo?.due_date || new Date();
+  assignedTo: number[] = this.oS.currentTodo?.assigned_to || [];
+
+  newAssignments: boolean = false;
+
+
+  todoForm = new FormGroup({
+    category: new FormControl(),
+    title: new FormControl(),
+    description: new FormControl(),
+    completed: new FormControl(),
+    priority: new FormControl(),
+    due_date: new FormControl(),
+    assigned_to: new FormControl(),
+    subtasks: new FormControl()
+  });
+
   routeId = '';
 
   constructor(
     public oS: OverlayService,
-    private dataService: DataService,
+    public dataService: DataService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private location: Location,
@@ -27,39 +50,75 @@ export class UpdateTodosComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log("the current todo: ", this.oS.currentTodo);
     this.activatedRoute.params.subscribe(params => {
       this.routeId = params['id'];
     });
-    if (this.formValuesAreNull()) {
-      this.youShallNotPass = true;
-    }
   }
 
 
-  todoForm = new FormGroup({
-    title: new FormControl(this.oS.currentTodo?.title),
-    description: new FormControl(this.oS.currentTodo?.description),
-    completed: new FormControl(this.oS.currentTodo?.completed),
-    category: new FormControl(this.oS.currentTodo?.category),
-    priority: new FormControl(this.oS.currentTodo?.priority),
-    dueDate: new FormControl(this.oS.currentTodo?.due_date),
-    assignedTo: new FormControl(this.oS.currentTodo?.assigned_to),
-    subtasks: new FormControl(this.oS.currentTodo?.subtasks)
-  });
+  ngOnDestroy(): void {
+    console.log("destroying update component");
+  }
 
 
-  formValuesAreNull() {
-    return (
-      (this.todoForm.value.title === null || this.todoForm.value.title === '')
-      && (this.todoForm.value.description === null || this.todoForm.value.description === '')
-      && this.todoForm.value.completed === null
-    );
+  openCategoryForm() {
+    this.category = 0;
+  }
+
+
+  displayColor(e: any) {
+    let color = e.target.value.split(',')[1];
+    e.target.style.color = color;
+  }
+
+
+  isSelected(id: number) {
+    return this.assignedTo.includes(id);
+  }
+
+
+  hasNewAssignments() {
+    this.newAssignments = true;
+  }
+
+
+  undoChangedAssignments() {
+    this.newAssignments = false;
+  }
+
+
+  resetAssignments() {
+    this.assignedTo = [];
+  }
+
+
+  openContactForm() {
+    this.assignedTo = [];
+    this.oS.contactOverlayVisible = true;
+  }
+
+
+  updateSubtaskTitle($event: any, sub: Subtasks) {
+    this.oS.subtasks[this.oS.subtasks.indexOf(sub)].title = $event.target.value;
+  }
+
+
+  updateSubtaskStatus($event: any, sub: Subtasks) {
+    this.oS.subtasks[this.oS.subtasks.indexOf(sub)].completed = $event.target.checked;
+  }
+
+
+  deleteSubtask(sub: Subtasks) {
+    this.oS.subtasks.splice(this.oS.subtasks.indexOf(sub), 1);
   }
 
 
   async updateTodo() {
     let todo = this.addChanges();
-    this.dataService.updateTodoById(todo as Todo);
+    console.log("the final todo: ", todo);
+    await this.dataService.updateTodoById(todo as Todo);
+    this.oS.currentTodo = await this.dataService.getTodoById(this.oS.currentTodo?.id as number);
     this.oS.setSubjectTrue();
     this.close();
   }
@@ -69,18 +128,15 @@ export class UpdateTodosComponent implements OnInit {
     let todo = {
       ...this.oS.currentTodo
     };
-    this.todoForm.value.title !== null ? todo.title = this.todoForm.value.title : null;
-    this.todoForm.value.description !== null ? todo.description = this.todoForm.value.description : null;
+    this.todoForm.value.title !== '' ? todo.title = this.todoForm.value.title : null;
+    this.todoForm.value.description !== '' ? todo.description = this.todoForm.value.description : null;
+    this.todoForm.value.completed !== this.oS.currentTodo?.completed ? todo.completed = this.todoForm.value.completed : null;
+    this.todoForm.value.category !== this.oS.currentTodo?.category ? todo.category = this.todoForm.value.category : null;
+    this.todoForm.value.priority !== this.oS.currentTodo?.priority ? todo.priority = this.todoForm.value.priority : null;
+    this.todoForm.value.due_date !== this.oS.currentTodo?.due_date ? todo.due_date = this.todoForm.value.due_date : null;
+    this.todoForm.value.assigned_to !== this.oS.currentTodo?.assigned_to ? todo.assigned_to = this.todoForm.value.assigned_to : null;
+    this.todoForm.value.subtasks !== this.oS.subtasks ? todo.subtasks = this.oS.subtasks : null;
     return todo;
-  }
-
-
-  checkForm() {
-    if (this.formValuesAreNull()) {
-      this.youShallNotPass = true;
-    } else {
-      this.youShallNotPass = false;
-    }
   }
 
 
@@ -90,8 +146,7 @@ export class UpdateTodosComponent implements OnInit {
 
 
   close() {
-    this.oS.updateOverlayVisible = false;
-    this.oS.detailOverlayVisible = true;
+    this.oS.subtasks = [];
     this.location.back();
   }
 }
