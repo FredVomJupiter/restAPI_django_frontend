@@ -9,9 +9,6 @@ import { Subtasks } from '../models/subtask.model';
 })
 export class OverlayService {
  
-  addOverlayVisible: boolean = false;
-  detailOverlayVisible: boolean = false;
-  updateOverlayVisible: boolean = false;
   categoryOverlayVisible: boolean = false;
   contactOverlayVisible: boolean = false;
   

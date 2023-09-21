@@ -69,6 +69,12 @@ export class DataService {
   }
 
 
+  async getTodoById(id: number) {
+    const url = environment.baseUrl + '/api/v1/todos/' + id;
+    return await lastValueFrom(this.http.get<any>(url));
+  }
+
+
   async createCategory(category: Category) {
     const url = environment.baseUrl + '/api/v1/categories/';
     const body = category;
