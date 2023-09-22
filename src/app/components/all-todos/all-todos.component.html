@@ -32,9 +32,18 @@
             </p>
         </div>
 
-        <button (click)="delete(todo.id, $event)" class="delete-btn">DELETE</button>
+        <button (click)="openPromt(todo.id, $event)" class="delete-btn">DELETE</button>
     </div>
 
 </section>
+
+<div class="invisible" [class.visible]="showPromt">
+    DELETE for real?
+    <div class="row">
+        <button (click)="delete()">YES</button>
+        <button class="delete-btn" (click)="closePromt()">NOPE</button>
+    </div>
+    
+</div>
 
 <router-outlet></router-outlet>

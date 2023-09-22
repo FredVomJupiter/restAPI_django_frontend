@@ -15,6 +15,10 @@ export class AllTodosComponent implements OnInit, OnDestroy {
 
   creating: boolean = false;
 
+  showPromt: boolean = false;
+  todoID: number | null = null;
+
+
   sub!: Subscription;
 
   constructor(
@@ -38,9 +42,9 @@ export class AllTodosComponent implements OnInit, OnDestroy {
   }
 
 
-  async delete(id: number, $event: any) {
-    $event.stopPropagation();
-    await this.dataService.deleteTodoById(id);
+  async delete() {
+    await this.dataService.deleteTodoById(this.todoID!);
+    this.closePromt();
   }
 
 
@@ -58,6 +62,19 @@ export class AllTodosComponent implements OnInit, OnDestroy {
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
+  }
+
+
+  openPromt(id: number, $event: any) {
+    $event.stopPropagation();
+    this.todoID = id;
+    this.showPromt = true;  
+  }
+
+
+  closePromt() {
+    this.todoID = null;
+    this.showPromt = false;
   }
 
 }
