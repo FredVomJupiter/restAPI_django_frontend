@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Todo } from 'src/app/models/todo.model';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location, LocationStrategy, PathLocationStrategy, formatDate } from '@angular/common';
 import { Subtasks } from 'src/app/models/subtask.model';
 
 @Component({
@@ -31,7 +31,8 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
     description: new FormControl(),
     completed: new FormControl(),
     priority: new FormControl(),
-    due_date: new FormControl(),
+    due_date: new FormControl(this.oS.currentTodo?.due_date ?
+      formatDate(this.oS.currentTodo?.due_date, 'yyyy-MM-dd', 'en-US') : null),
     assigned_to: new FormControl(),
     subtasks: new FormControl()
   });
@@ -126,10 +127,20 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
     this.todoForm.value.completed !== this.oS.currentTodo?.completed ? todo.completed = this.todoForm.value.completed : null;
     this.todoForm.value.category !== this.oS.currentTodo?.category ? todo.category = this.todoForm.value.category : null;
     this.todoForm.value.priority !== this.oS.currentTodo?.priority ? todo.priority = this.todoForm.value.priority : null;
-    this.todoForm.value.due_date !== this.oS.currentTodo?.due_date ? todo.due_date = this.todoForm.value.due_date : null;
+    this.todoForm.value.due_date === todo.due_date ? null : todo.due_date = this.prepareDate(this.todoForm.value.due_date);
     this.todoForm.value.assigned_to !== this.oS.currentTodo?.assigned_to ? todo.assigned_to = this.todoForm.value.assigned_to : null;
     this.todoForm.value.subtasks !== this.oS.subtasks ? todo.subtasks = this.oS.subtasks : null;
     return todo;
+  }
+
+
+  prepareDate(date: string | null | undefined) {
+    if (date === null || date === undefined) {return undefined}
+    let dateArr = date.split('-');
+    let year = parseInt(dateArr[0]);
+    let month = parseInt(dateArr[1]) - 1;
+    let day = parseInt(dateArr[2]);
+    return new Date(year, month, day);
   }
 
 

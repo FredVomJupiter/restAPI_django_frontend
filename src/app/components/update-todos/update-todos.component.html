@@ -14,9 +14,7 @@
                 [placeholder]="this.oS.currentTodo?.description">
 
             <label for="date">Due Date: </label>
-            <input type="date" formControlName="due_date" name="date" [(ngModel)]="dueDate"
-                [value]="this.oS.currentTodo?.due_date | date: 'YYYY-MM-dd'">
-                <span>{{ dueDate | date }}</span>
+            <input type="date" formControlName="due_date" name="date">
 
             <label for="status">Status:</label>
             <input type="checkbox" formControlName="completed" name="status" [(ngModel)]="status"
