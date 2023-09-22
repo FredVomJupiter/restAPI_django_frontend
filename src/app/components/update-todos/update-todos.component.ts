@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Todo } from 'src/app/models/todo.model';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
-import { DatePipe, Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { combineLatest, map } from 'rxjs';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Subtasks } from 'src/app/models/subtask.model';
 
 @Component({
@@ -38,22 +36,16 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
     subtasks: new FormControl()
   });
 
-  routeId = '';
 
   constructor(
     public oS: OverlayService,
     public dataService: DataService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private location: Location,
     ) { }
 
 
   ngOnInit(): void {
     console.log("the current todo: ", this.oS.currentTodo);
-    this.activatedRoute.params.subscribe(params => {
-      this.routeId = params['id'];
-    });
   }
 
 
@@ -64,6 +56,7 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
 
   openCategoryForm() {
     this.category = 0;
+    this.oS.categoryOverlayVisible = true;
   }
 
 
