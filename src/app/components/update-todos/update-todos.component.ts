@@ -4,7 +4,7 @@ import { Todo } from 'src/app/models/todo.model';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Location, LocationStrategy, PathLocationStrategy, formatDate } from '@angular/common';
-import { Subtasks } from 'src/app/models/subtask.model';
+import { Subtask } from 'src/app/models/subtask.model';
 
 @Component({
   providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}],
@@ -93,18 +93,18 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
   }
 
 
-  updateSubtaskTitle($event: any, sub: Subtasks) {
-    this.oS.subtasks[this.oS.subtasks.indexOf(sub)].title = $event.target.value;
+  updateSubtaskTitle($event: any, sub: Subtask) {
+    this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].title = $event.target.value;
   }
 
 
-  updateSubtaskStatus($event: any, sub: Subtasks) {
-    this.oS.subtasks[this.oS.subtasks.indexOf(sub)].completed = $event.target.checked;
+  updateSubtaskStatus($event: any, sub: Subtask) {
+    this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].completed = $event.target.checked;
   }
 
 
-  deleteSubtask(sub: Subtasks) {
-    this.oS.subtasks.splice(this.oS.subtasks.indexOf(sub), 1);
+  deleteSubtask(sub: Subtask) {
+    this.oS.subtasksFull.splice(this.oS.subtasks.indexOf(sub.id), 1);
   }
 
 

@@ -43,11 +43,15 @@
 
             <div>
                 <p>Subtasks: </p>
-                <span class="flex-row" *ngFor="let sub of oS.currentTodo.subtasks">
-                    <b>{{ sub.title }} </b>
-                    <div *ngIf="sub.completed">Done ✅</div>
-                    <div *ngIf="!sub.completed">Todo 📋</div>
-                </span>
+                <div *ngFor="let sub of oS.currentTodo.subtasks">
+                    <span *ngFor="let subtask of this.dataService.subtasks$ | async">
+                        <span class="flex-row" *ngIf="subtask.id === sub">
+                            <b>{{ subtask.title }}</b>
+                            <div *ngIf="subtask.completed">Done ✅</div>
+                            <div *ngIf="!subtask.completed">Todo 📋</div>
+                        </span>
+                    </span>
+                </div>
             </div>
 
         </div>

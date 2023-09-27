@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Todo } from 'src/app/models/todo.model';
-import { Subtasks } from 'src/app/models/subtask.model'
 
 
 @Component({
@@ -21,7 +20,7 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   category: number = 0;
   priority: number = 1;
   dueDate: Date = new Date();
-  assignedTo: any[] = [];
+  assignedTo: number[] = [];
 
 
   todoForm = new FormGroup({
@@ -51,9 +50,10 @@ export class AddTodoComponent implements OnInit, OnDestroy {
     console.log("destroying add component");
   }
 
-
+  /**
+   * Shows the form values in the console each time an input is changed.
+   */
   showFormValues() {
-    this.todoForm.value.subtasks = this.oS.subtasks;
     console.log(this.todoForm.value);
   }
 
@@ -98,7 +98,7 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteSubtask(sub: Subtasks) {
+  deleteSubtask(sub: number) {
     this.oS.subtasks.splice(this.oS.subtasks.indexOf(sub), 1);
   }
 

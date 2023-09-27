@@ -79,7 +79,7 @@
             <label for="subtasks">Subtasks</label>
             <app-add-subtask></app-add-subtask>
 
-            <span class="flex-row" *ngFor="let sub of this.oS.subtasks">
+            <span class="flex-row" *ngFor="let sub of this.oS.subtasksFull">
                 <input type="text" [placeholder]="sub.title" (change)="updateSubtaskTitle($event, sub)">
                 <input type="checkbox" [checked]="sub.completed" (change)="updateSubtaskStatus($event, sub)">
                 <div class="close-btn" (click)="deleteSubtask(sub)">🗑️</div>

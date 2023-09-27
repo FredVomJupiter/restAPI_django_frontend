@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Todo } from '../models/todo.model';
-import { Subtasks } from '../models/subtask.model';
+import { Subtask } from '../models/subtask.model';
 
 
 @Injectable({
@@ -14,7 +14,8 @@ export class OverlayService {
   
   currentTodo: Todo | null = null;
 
-  subtasks: Subtasks[] = [];
+  subtasks: number[] = [];
+  subtasksFull: Subtask[] = [];
 
   subject = new Subject<boolean>();
   categorySubject = new Subject<boolean>();

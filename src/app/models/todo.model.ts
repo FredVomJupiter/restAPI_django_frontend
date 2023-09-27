@@ -1,5 +1,3 @@
-import { Subtasks } from './subtask.model';
-
 export class Todo {
 
     constructor(
@@ -11,7 +9,7 @@ export class Todo {
         public priority: number,
         public due_date: Date,
         public assigned_to: number[],
-        public subtasks: Subtasks[]
+        public subtasks: number[]
     ) { }
 
 

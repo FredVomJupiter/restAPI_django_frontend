@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Category } from '../models/category.model';
 import { Todo } from '../models/todo.model';
 import { Contact } from '../models/contact.model';
+import { Subtask } from '../models/subtask.model';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class DataService {
   todos$: Observable<Todo[]> = new Observable<Todo[]>();
   categories$: Observable<Category[]> = new Observable<Category[]>();
   contacts$: Observable<Contact[]> = new Observable<Contact[]>();
+  subtasks$: Observable<Subtask[]> = new Observable<Subtask[]>();
   user: any;
   loading: boolean = false;
 
@@ -29,7 +31,6 @@ export class DataService {
     this.loading = true;
     let todos = await this.getTodos();
     this.todos$ = new Observable<Todo[]>(subscriber => {
-      console.log(todos)
       subscriber.next(todos);
     });
     let categories = await this.getCategories();
@@ -40,6 +41,10 @@ export class DataService {
     let contacts = await this.getContacts();
     this.contacts$ = new Observable<Contact[]>(subscriber => {
       subscriber.next(contacts);
+    });
+    let subtasks = await this.getSubtasks();
+    this.subtasks$ = new Observable<Subtask[]>(subscriber => {
+      subscriber.next(subtasks);
     });
     this.loading = false;
   }
@@ -59,6 +64,12 @@ export class DataService {
 
   async getContacts() {
     const url = environment.baseUrl + '/api/v1/contacts/';
+    return await lastValueFrom(this.http.get<any>(url));
+  }
+
+
+  async getSubtasks() {
+    const url = environment.baseUrl + '/api/v1/subtasks/';
     return await lastValueFrom(this.http.get<any>(url));
   }
 
