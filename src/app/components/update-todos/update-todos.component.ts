@@ -94,16 +94,19 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
 
 
   updateSubtaskTitle($event: any, sub: Subtask) {
+    if (sub.id != null)
     this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].title = $event.target.value;
   }
 
 
   updateSubtaskStatus($event: any, sub: Subtask) {
+    if (sub.id != null)
     this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].completed = $event.target.checked;
   }
 
 
   deleteSubtask(sub: Subtask) {
+    if (sub.id != null)
     this.oS.subtasksFull.splice(this.oS.subtasks.indexOf(sub.id), 1);
   }
 

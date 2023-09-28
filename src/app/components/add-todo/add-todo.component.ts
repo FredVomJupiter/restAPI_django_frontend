@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Todo } from 'src/app/models/todo.model';
+import { Subtask } from 'src/app/models/subtask.model';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   title: string = '';
   description: string = '';
   status: boolean = false;
-  category: number = 0;
+  category: number = 1;
   priority: number = 1;
   dueDate: Date = new Date();
   assignedTo: number[] = [];
@@ -43,6 +44,16 @@ export class AddTodoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log("Init add component");
+    console.log("Data on init: ", this.todoForm.value);
+    this.oS.subtasksFull = [];
+    this.oS.subtasks = [];
+    this.title = '';
+    this.description = '';
+    this.status = false;
+    this.category = 1;
+    this.priority = 1;
+    this.dueDate = new Date();
+    this.assignedTo = [];
   }
 
 
@@ -54,7 +65,7 @@ export class AddTodoComponent implements OnInit, OnDestroy {
    * Shows the form values in the console each time an input is changed.
    */
   showFormValues() {
-    console.log(this.todoForm.value);
+    //console.log(this.todoForm.value);
   }
 
 
@@ -64,15 +75,28 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   }
 
 
+  /**
+   * If the form is valid, all if any subtasks are created, then the todo is created
+   * via the dataService http post request to api endpoints.
+   */
   async create() {
     if (this.todoForm.valid) {
-      console.log(this.todoForm.value);
-      await this.dataService.createTodo(this.todoForm.value as Todo)
+      await this.createSubtasks();
+      await this.dataService.createTodo(this.todoForm.value as Todo);
       this.oS.setSubjectTrue();
       this.closeForm();
     } else {
       console.log('invalid form');
     }
+  }
+
+
+  async createSubtasks() {
+    for (let sub of this.oS.subtasksFull) {
+      const subtask = await this.dataService.createSubtask(sub);
+      this.oS.subtasks.push(subtask);
+    }
+    this.todoForm.value.subtasks = [...this.oS.subtasks];
   }
 
 
@@ -97,17 +121,16 @@ export class AddTodoComponent implements OnInit, OnDestroy {
     this.oS.contactOverlayVisible = true;
   }
 
-
-  deleteSubtask(sub: number) {
-    this.oS.subtasks.splice(this.oS.subtasks.indexOf(sub), 1);
+  /**
+   * Removes the references of a subtask from the temporary subtasks and subtasksFull arrays.
+   * @param sub as index number.
+   */
+  deleteSubtask(sub: Subtask) {
+    this.oS.subtasksFull.splice(this.oS.subtasksFull.indexOf(sub), 1);
   }
 
 
   closeForm() {
-    this.todoForm.reset();
-    this.oS.subtasks = [];
-    console.log(this.oS.subtasks);
-    console.log(this.todoForm.value);
     this.router.navigate(['/todos']);
   }
 

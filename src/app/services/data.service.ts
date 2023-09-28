@@ -6,6 +6,7 @@ import { Category } from '../models/category.model';
 import { Todo } from '../models/todo.model';
 import { Contact } from '../models/contact.model';
 import { Subtask } from '../models/subtask.model';
+import { OverlayService } from './overlay.service';
 
 
 @Injectable({
@@ -21,7 +22,8 @@ export class DataService {
   loading: boolean = false;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private oS: OverlayService
   ) {
     this.load();
   }
@@ -102,20 +104,31 @@ export class DataService {
     const body = contact;
     await lastValueFrom(this.http.post<any>(url, body));
     let contacts = await this.getContacts();
-    this.contacts$ = new Observable<any[]>(subscriber => {
+    this.contacts$ = new Observable<Contact[]>(subscriber => {
       subscriber.next(contacts);
+    });
+  }
+
+
+  async createSubtask(subtask: Subtask) {
+    const url = environment.baseUrl + '/api/v1/subtasks/';
+    const body = subtask;
+    return await lastValueFrom(this.http.post<any>(url, body)).then((res) => {
+      return res.id;
     });
   }
   
 
   async createTodo(data: Todo) {
-    console.log("Logging:", data);
     const url = environment.baseUrl + '/api/v1/todos/';
-    const body = data;
-    await lastValueFrom(this.http.post<any>(url, body));
+    await lastValueFrom(this.http.post<any>(url, data));
     let todos = await this.getTodos();
     this.todos$ = new Observable<Todo[]>(subscriber => {
       subscriber.next(todos);
+    });
+    let subtasks = await this.getSubtasks();
+    this.subtasks$ = new Observable<Subtask[]>(subscriber => {
+      subscriber.next(subtasks);
     });
   }
 

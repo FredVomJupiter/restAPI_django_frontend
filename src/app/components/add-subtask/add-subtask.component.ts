@@ -11,9 +11,10 @@ import { OverlayService } from 'src/app/services/overlay.service';
 export class AddSubtaskComponent {
 
   @Output() newSubtask: Subtask = {
-    id: 0,
+    id: null,
     title: '',
-    completed: false
+    completed: false,
+    todo: null
   };
 
   subtaskForm = new FormGroup({
@@ -27,12 +28,13 @@ export class AddSubtaskComponent {
 
 
   addSubtask() {
-    console.log(this.newSubtask);
+    console.log("New Subtask: ", this.newSubtask);
     this.oS.subtasksFull.push(this.newSubtask);
     this.newSubtask = {
-      id: 0,
+      id: null,
       title: '',
-      completed: false
+      completed: false,
+      todo: null
     };
   }
 
