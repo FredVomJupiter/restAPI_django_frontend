@@ -44,7 +44,16 @@ export class AddTodoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log("Init add component");
-    console.log("Data on init: ", this.todoForm.value);
+    this.setDefaultData();
+  }
+
+
+  ngOnDestroy(): void {
+    console.log("destroying add component");
+  }
+
+
+  setDefaultData() {
     this.oS.subtasksFull = [];
     this.oS.subtasks = [];
     this.title = '';
@@ -54,11 +63,6 @@ export class AddTodoComponent implements OnInit, OnDestroy {
     this.priority = 1;
     this.dueDate = new Date();
     this.assignedTo = [];
-  }
-
-
-  ngOnDestroy(): void {
-    console.log("destroying add component");
   }
 
   /**
@@ -83,7 +87,6 @@ export class AddTodoComponent implements OnInit, OnDestroy {
     if (this.todoForm.valid) {
       await this.createSubtasks();
       await this.dataService.createTodo(this.todoForm.value as Todo);
-      this.oS.setSubjectTrue();
       this.closeForm();
     } else {
       console.log('invalid form');

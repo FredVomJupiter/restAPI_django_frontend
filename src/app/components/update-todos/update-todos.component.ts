@@ -5,9 +5,10 @@ import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Location, LocationStrategy, PathLocationStrategy, formatDate } from '@angular/common';
 import { Subtask } from 'src/app/models/subtask.model';
+import { Subscription } from 'rxjs';
 
 @Component({
-  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}],
+  providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   selector: 'app-update-todos',
   templateUrl: './update-todos.component.html',
   styleUrls: ['./update-todos.component.scss']
@@ -37,21 +38,29 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
     subtasks: new FormControl()
   });
 
+  subscription: Subscription | undefined;
+
 
   constructor(
     public oS: OverlayService,
     public dataService: DataService,
     private location: Location,
-    ) { }
+  ) { }
 
 
   ngOnInit(): void {
-    console.log("the current todo: ", this.oS.currentTodo);
+    console.log("Init update component");
+    this.subscription = this.dataService.subtasks$.subscribe((subtasks) => {
+      this.oS.subtasksFull = subtasks.filter((subtask) => {
+        return this.oS.subtasks.includes(subtask.id as number);
+      });
+    });
   }
 
 
   ngOnDestroy(): void {
     console.log("destroying update component");
+    this.subscription?.unsubscribe();
   }
 
 
@@ -95,28 +104,46 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
 
   updateSubtaskTitle($event: any, sub: Subtask) {
     if (sub.id != null)
-    this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].title = $event.target.value;
+      this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].title = $event.target.value;
   }
 
 
   updateSubtaskStatus($event: any, sub: Subtask) {
     if (sub.id != null)
-    this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].completed = $event.target.checked;
+      this.oS.subtasksFull[this.oS.subtasks.indexOf(sub.id)].completed = $event.target.checked;
   }
 
 
-  deleteSubtask(sub: Subtask) {
+  async deleteSubtask(sub: Subtask) {
     if (sub.id != null)
-    this.oS.subtasksFull.splice(this.oS.subtasks.indexOf(sub.id), 1);
+      this.oS.subtasksFull.splice(this.oS.subtasks.indexOf(sub.id), 1);
+    this.oS.currentTodo?.subtasks?.splice(this.oS.currentTodo?.subtasks?.indexOf(sub.id as number), 1);
+    await this.dataService.deleteSubtaskById(sub.id as number);
   }
 
 
+  async createSubtasks() {
+    for (let sub of this.oS.subtasksFull) {
+      if (sub.id == null) {
+        sub.todo = this.oS.currentTodo?.id as number;
+        const subtask = await this.dataService.createSubtask(sub);
+        this.oS.subtasks.push(subtask);
+        this.dataService.refreshSubtasks();
+      } else {
+        const subtask = await this.dataService.updateSubtaskById(sub);
+      }
+    }
+    this.todoForm.value.subtasks = [...this.oS.subtasks];
+  }
+
+  /**
+   * Main update function that is triggerd when the user clicks the update button.
+   */
   async updateTodo() {
+    await this.createSubtasks();
     let todo = this.addChanges();
-    console.log("the final todo: ", todo);
     await this.dataService.updateTodoById(todo as Todo);
     this.oS.currentTodo = await this.dataService.getTodoById(this.oS.currentTodo?.id as number);
-    this.oS.setSubjectTrue();
     this.close();
   }
 
@@ -132,13 +159,17 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
     this.todoForm.value.priority !== this.oS.currentTodo?.priority ? todo.priority = this.todoForm.value.priority : null;
     this.todoForm.value.due_date === todo.due_date ? null : todo.due_date = this.prepareDate(this.todoForm.value.due_date);
     this.todoForm.value.assigned_to !== this.oS.currentTodo?.assigned_to ? todo.assigned_to = this.todoForm.value.assigned_to : null;
-    this.todoForm.value.subtasks !== this.oS.subtasks ? todo.subtasks = this.oS.subtasks : null;
     return todo;
   }
 
 
+  /**
+   * Transforms a date string into a Date object.
+   * @param date as string.
+   * @returns a Date object.
+   */
   prepareDate(date: string | null | undefined) {
-    if (date === null || date === undefined) {return undefined}
+    if (date === null || date === undefined) { return undefined }
     let dateArr = date.split('-');
     let year = parseInt(dateArr[0]);
     let month = parseInt(dateArr[1]) - 1;

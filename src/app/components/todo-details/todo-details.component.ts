@@ -20,7 +20,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log("Init detail component");
-    console.log("the current todo: ", this.oS.currentTodo);
   }
 
 
@@ -36,7 +35,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
 
   openEditor() {
-    console.log("current Todo:", this.oS.currentTodo)
     // Creating a deep copy of the currentTodo object to avoid mutating the original object
     this.oS.subtasks = [...this.oS.currentTodo?.subtasks || []];
     this.router.navigate(['/todos/update']);

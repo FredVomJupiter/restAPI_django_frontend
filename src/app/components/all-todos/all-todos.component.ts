@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { Todo } from 'src/app/models/todo.model';
@@ -19,8 +18,6 @@ export class AllTodosComponent implements OnInit, OnDestroy {
   todoID: number | null = null;
 
 
-  sub!: Subscription;
-
   constructor(
     private router: Router,
     public oS: OverlayService,
@@ -29,16 +26,12 @@ export class AllTodosComponent implements OnInit, OnDestroy {
 
 
   async ngOnInit(): Promise<void> {
-    this.sub = this.oS.subject.subscribe(async (data) => {
-      if (data) {
-        this.oS.setSubjectFalse();
-      }
-    });
+    console.log("Init all component");
   }
 
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    console.log("Destroy all component");
   }
 
 
