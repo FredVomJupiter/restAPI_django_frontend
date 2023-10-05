@@ -1,5 +1,10 @@
+/**
+ * @desc Service for managing the visibility of the overlay components
+ * and for passing data between components and storing temporary data
+ * for the update and add components.
+ */
+
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Todo } from '../models/todo.model';
 import { Subtask } from '../models/subtask.model';
 
@@ -17,30 +22,5 @@ export class OverlayService {
   subtasks: number[] = [];
   subtasksFull: Subtask[] = [];
 
-  subject = new Subject<boolean>();
-  categorySubject = new Subject<boolean>();
-
   constructor() { }
-
-
-  setSubjectTrue() {
-    this.subject.next(true);
-  }
-
-
-  setSubjectFalse() {
-    this.subject.next(false);
-  }
-
-
-  setCategorySubjectTrue() {
-    this.categorySubject.next(true);
-  }
-
-
-  setCategorySubjectFalse() {
-    this.categorySubject.next(false);
-  }
-
-
 }
