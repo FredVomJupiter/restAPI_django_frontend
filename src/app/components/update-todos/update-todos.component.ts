@@ -133,7 +133,6 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
         const subtask = await this.dataService.updateSubtaskById(sub);
       }
     }
-    this.todoForm.value.subtasks = [...this.oS.subtasks];
   }
 
   /**
@@ -142,6 +141,7 @@ export class UpdateTodosComponent implements OnInit, OnDestroy {
   async updateTodo() {
     await this.createSubtasks();
     let todo = this.addChanges();
+    todo.subtasks = this.oS.subtasks;
     await this.dataService.updateTodoById(todo as Todo);
     this.oS.currentTodo = await this.dataService.getTodoById(this.oS.currentTodo?.id as number);
     this.close();
